@@ -148,13 +148,13 @@ public class Main {
 
         Integer odabir=sc.nextInt();
 
-        if(odabir==1){
+        if(odabir.equals(1)){
             System.out.println("Najskuplja narudžba je narudžba sa indexom: "+expensiveBooking.getBookingId());
             System.out.println("Naručitelj: "+expensiveBooking.getUser().getUsername());
             System.out.println("Ukupna cijena je: "+expensiveBooking.getTotalPrice()+" EUR");
 
         }
-        else if(odabir==2){
+        else if(odabir.equals(2)){
             System.out.println("Najjeftinija narudžba je narudžba sa indexom: "+cheapestBooking.getBookingId());
             System.out.println("Naručitelj: "+cheapestBooking.getUser().getUsername());
             System.out.println("Ukupna cijena je: "+cheapestBooking.getTotalPrice()+" EUR");
