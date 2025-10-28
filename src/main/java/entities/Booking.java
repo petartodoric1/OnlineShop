@@ -2,12 +2,13 @@ package entities;
 
 import java.math.BigDecimal;
 
-public class Booking {
+public final class Booking implements Payed {
 
     private User user;
     private Item[] items;
     private Integer[] quantity;
     private Integer bookingId;
+    private boolean isPayed=false;
 
     public Booking(User user, Item[] items, Integer[] quantity, Integer bookingId) {
         this.user = user;
@@ -59,5 +60,15 @@ public class Booking {
             sum = sum.add(items[i].getPrice().multiply(new BigDecimal(quantity[i])));
         }
         return sum;
+    }
+
+    @Override
+    public boolean isPayed(){
+        return isPayed;
+    }
+
+    @Override
+    public void markAsPayed() {
+        this.isPayed = true;
     }
 }

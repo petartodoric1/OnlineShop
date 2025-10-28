@@ -2,11 +2,12 @@ package entities;
 
 import java.math.BigDecimal;
 
-public class Item {
+public abstract class Item implements Sold{
 
     private String name;
     private BigDecimal price;
     private Integer itemId;
+    private boolean sold= false;
 
 
     public Item(String name, BigDecimal price, Integer itemId) {
@@ -38,5 +39,17 @@ public class Item {
     public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
+
+    public abstract String getCategory();
+
+    @Override
+    public boolean isSold() {
+        return sold;
+    }
+    @Override
+    public void markAsSold() {
+        this.sold = true;
+    }
+
 }
 

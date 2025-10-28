@@ -1,12 +1,9 @@
 package entities;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-public class Record {
-
-    private Integer userId;
-    private User user;
-    private LocalDate date;
-
-
-}
+public record Record(String username,
+        BigDecimal price,
+        Integer bookingId,
+        LocalDateTime time) { }
