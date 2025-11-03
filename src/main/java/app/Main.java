@@ -11,16 +11,24 @@ import exceptions.InvalidDaNeException;
 import exceptions.InvalidInputException;
 import exceptions.InvalidOdabirException;
 import exceptions.LoginFailedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+
+    private static Logger log= LoggerFactory.getLogger(Main.class);
+
     private static final Integer NUMBER_OF_ALL = 2 ;
     private static final Integer NUMBER_OF_ITEMS = 3;
 
     static void main() {
+
+        log.info("Pokretanje aplikacije ...");
         Scanner sc= new Scanner(System.in);
 
         User[] users;
@@ -30,13 +38,8 @@ public class Main {
 
 
         users=generateUsers(sc);
-
-        try{
         items=generateItems(sc);
-        }catch (InvalidInputException e) {
-            System.out.println("Greška pri unosu vrijednosti -> "+e.getMessage());
-            return;
-        }
+
 
         bookings=generateBookings(sc,users,items,records);
         pretrazivanje(sc,bookings,items,records);
@@ -67,7 +70,7 @@ public class Main {
         return users;
     }
 
-    private static Item[] generateItems(Scanner sc) throws InvalidInputException {
+    private static Item[] generateItems(Scanner sc)  {
         Item[] items=new Item[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
 
         Integer itemId=0;
@@ -81,13 +84,21 @@ public class Main {
             System.out.println("Unesite "+(i+1)+". majicu:");
             System.out.println("Ime:");
             String ime=sc.nextLine();
-            System.out.println("Cijena:");
+
             BigDecimal price=null;
-            try {
-                 price = new BigDecimal(sc.nextLine());
-            }catch(NumberFormatException e) {
-                throw new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+            while(true) {
+                System.out.println("Cijena:");
+
+                try {
+                    price = new BigDecimal(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    InvalidInputException ex= new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
+                    log.error("Neispravan unos cijene", e);
+                }
             }
+
             System.out.println("Boja:");
             String boja=sc.nextLine();
             System.out.println("Veličina:");
@@ -105,13 +116,21 @@ public class Main {
             System.out.println("Unesite "+(i+1)+". hlače:");
             System.out.println("Ime:");
             String ime=sc.nextLine();
-            System.out.println("Cijena:");
+
             BigDecimal price=null;
-            try {
-                price = new BigDecimal(sc.nextLine());
-            }catch(NumberFormatException e) {
-                throw new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+            while(true) {
+                System.out.println("Cijena:");
+
+                try {
+                    price = new BigDecimal(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    InvalidInputException ex= new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
+                    log.error("Neispravan unos cijene", e);
+                }
             }
+
             System.out.println("Boja:");
             String boja=sc.nextLine();
             System.out.println("Veličina:");
@@ -131,20 +150,35 @@ public class Main {
             System.out.println("Unesite "+(i+1)+". cipele:");
             System.out.println("Ime:");
             String ime=sc.nextLine();
-            System.out.println("Cijena:");
+
             BigDecimal price=null;
-            try {
-                price = new BigDecimal(sc.nextLine());
-            }catch(NumberFormatException e) {
-                throw new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+            while(true) {
+                System.out.println("Cijena:");
+
+                try {
+                    price = new BigDecimal(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    InvalidInputException ex= new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
+                    log.error("Neispravan unos cijene", e);
+                }
             }
-            System.out.println("Veličina (npr. 42,42.5,43...):");
+
             BigDecimal velicina=null;
-            try {
-                velicina = new BigDecimal(sc.nextLine());
-            }catch(NumberFormatException e) {
-                throw new InvalidInputException("Veličina mora biti brojčana vrijednost!");
+            while(true) {
+                System.out.println("Veličina:");
+
+                try {
+                    velicina = new BigDecimal(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    InvalidInputException ex= new InvalidInputException("Veličina mora biti brojčana vrijednost!");
+                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
+                    log.error("Neispravan unos veličine", e);
+                }
             }
+
             itemId++;
 
             items[itemIndex]=new Cipele(ime,price,itemId,velicina);
@@ -154,17 +188,30 @@ public class Main {
         return items;
     }
 
-    private static Booking[] generateBookings(Scanner sc,User[] users,Item[] items,Record[] records) throws InvalidDaNeException, InvalidOdabirException {
+    private static Booking[] generateBookings(Scanner sc,User[] users,Item[] items,Record[] records)  {
         Booking[] bookings=new Booking[NUMBER_OF_ALL];
         Integer recordId=0;
         for(Integer bookingIndex=0;bookingIndex< bookings.length;bookingIndex++) {
 
-            System.out.println("Dobar dan, zelite li nešto kupiti? (Da/Ne):");
-            String confirmation = sc.nextLine();
+            String confirmation=null;
 
-            if(!confirmation.equalsIgnoreCase("Da") && !confirmation.equalsIgnoreCase("Ne")) {
-                throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+            while(true) {
+                System.out.println("Dobar dan, zelite li nešto kupiti? (Da/Ne):");
+                confirmation = sc.nextLine();
+
+                try{
+                    if(!confirmation.equalsIgnoreCase("Da")&&!confirmation.equalsIgnoreCase("Ne")) {
+                        throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+                    }
+                    break;
+                }catch(InvalidDaNeException e) {
+                    System.out.println("Greška pri unosu -> "+e.getMessage());
+                    log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", confirmation);
+                }
+
+
             }
+
 
             if (confirmation.equalsIgnoreCase("Da")) {
 
@@ -172,7 +219,7 @@ public class Main {
                 Integer orderedIndex = 0;
                 Item[] orderedItems = new Item[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
                 Integer[] orderedQuantity = new Integer[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
-                String answer;
+                String answer=null;
 
                 User selectedUser=null;
                 try {
@@ -202,9 +249,22 @@ public class Main {
                     if(selectedItem.isSold()){
                         System.out.println("Ovaj proizvod je rasprodan!");
                         sc.nextLine();
-                        System.out.println("Želite li neki drugi proizvod (Da/Ne):");
-                        answer = sc.nextLine();
+                        while(true) {
+                            System.out.println("Želite li neki drugi proizvod? (Da/Ne):");
+                            answer = sc.nextLine();
+
+                            try{
+                                if(!answer.equalsIgnoreCase("Da")&&!answer.equalsIgnoreCase("Ne")) {
+                                    throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+                                }
+                                break;
+                            }catch(InvalidDaNeException e) {
+                                System.out.println("Greška pri unosu -> "+e.getMessage());
+                                log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
+                            }
+                        }
                         continue;
+
                     }
 
                     selectedItem.markAsSold();
@@ -215,10 +275,22 @@ public class Main {
                     orderedQuantity[orderedIndex] = quantity;
                     orderedIndex++;
                     sc.nextLine();
-                    System.out.println("Želite li još neki proizvod: (Da/Ne):");
-                    answer = sc.nextLine();
+                    while(true) {
+                        System.out.println("Želite li još neki proizvod? (Da/Ne):");
+                        answer = sc.nextLine();
 
-                } while ("Da".equals(answer));
+                        try{
+                            if(!answer.equalsIgnoreCase("Da")&&!answer.equalsIgnoreCase("Ne")) {
+                                throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+                            }
+                            break;
+                        }catch(InvalidDaNeException e) {
+                            System.out.println("Greška pri unosu -> "+e.getMessage());
+                            log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
+                        }
+                    }
+
+                } while ("Da".equalsIgnoreCase(answer));
 
                 //Provjerava jel korisnik nešto naručio, odnosno, jel odustao od kupnje ako je prva stvar bila rasprodana
                 if(orderedItems[0]!= null){
@@ -286,6 +358,7 @@ public class Main {
             System.out.println("Unesite password:");
             String password = sc.nextLine();
             if (password.equals(selectedUser.getPassword())) {
+                log.info("Korisnik {} uspješno prijavljen.", selectedUser.getUsername());
                 System.out.println("Uspiješna prijava! Nastavite s kupnjom!");
                 return selectedUser;
             }
@@ -296,92 +369,85 @@ public class Main {
                     throw new LoginFailedException("Previše neuspjelih pokušaja unosa passworda!");
                 }
                 System.out.println("Krivi password! Pokušajte ponovo:");
+                log.warn("Neuspješna prijava korisnika: {}", selectedUser.getUsername());
 
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*boolean correctUserName = false;
-        int userIndex = 0;
-        String username = sc.nextLine();
-
-        while (!correctUserName) {
-
-            for (Integer i = 0; i < users.length; i++) {
-                if (users[i].getUsername().equals(username)) {
-                    correctUserName = true;
-                    userIndex = i;
-                    System.out.println("Unesite password:");
-                    String password = sc.nextLine();
-                    while(!users[i].getPassword().equals(password)) {
-                        System.out.println("Netočan password! Probajte ponovo:");
-                        password = sc.nextLine();
-                    }
-                    break;
-                }
-
-            }
-            if (!correctUserName) {
-                System.out.println("Krivi username! Probajte ponovo:");
-                username = sc.nextLine();
-            }
-
-        }
-        User selectedUser = users[userIndex];
-        System.out.println("Uspiješna prijava, nastavite s kupnjom!");
-
-        return selectedUser;*/
     }
 
     private static void pretrazivanje(Scanner sc,Booking[] bookings, Item[] items,Record[] records) {
-        System.out.println("Želite li započeti pretraživanje? (Da/Ne):");
-        String confirmation=sc.nextLine();
 
-        if (confirmation.equals("Da")) {
-            String answer="Da";
+        String confirmation=null;
+        while(true) {
+            System.out.println("Želite li započeti pretraživanje? (Da/Ne):");
+            confirmation = sc.nextLine();
+
+            try{
+                if(!confirmation.equalsIgnoreCase("Da")&&!confirmation.equalsIgnoreCase("Ne")) {
+                    throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+                }
+                break;
+            }catch(InvalidDaNeException e) {
+                System.out.println("Greška pri unosu -> "+e.getMessage());
+                log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", confirmation);
+            }
+        }
+
+        if (confirmation.equalsIgnoreCase("Da")) {
+            String answer=null;
             do {
-                Integer odabir;
-                System.out.println("Pretraži:");
-                System.out.println("(1) Proizvode");
-                System.out.println("(2) Narudžbe");
-                System.out.println("Odabir:");
-                odabir = sc.nextInt();
+                Integer odabir = null;
+                while (true) {
+                    System.out.println("Pretraži:");
+                    System.out.println("(1) Proizvode");
+                    System.out.println("(2) Narudžbe");
+                    System.out.println("Odabir:");
+
+                    try {
+                        odabir = sc.nextInt();
+                        sc.nextLine();
+
+                        if (odabir != 1 && odabir != 2) {
+                            throw new InvalidOdabirException("Neispravan unos! Unesite 1 ili 2.");
+                        }
+
+                        break;
+                    } catch (InvalidOdabirException e) {
+                        System.out.println("Greška pri unosu -> " + e.getMessage());
+
+                    } catch (InputMismatchException e) {
+                        System.out.println("Greška: Morate unijeti broj!");
+                        sc.nextLine();
+                    }
+                }
+
 
                 if (odabir.equals(1)) {
                     odabirProizvoda(sc, items);
-                } else if (odabir.equals(2)) {
-                    odabirNarudzbe(sc, bookings,records);
-                } else {
-                    System.out.println("Krivi odabir!");
                 }
-                sc.nextLine();
-                System.out.println("Želite li nastaviti pretraživanje? (Da/Ne):");
-                answer = sc.nextLine();
-            } while ("Da".equals(answer));
 
+                if (odabir.equals(2)) {
+                    odabirNarudzbe(sc, bookings, records);
+                }
+
+
+                while (true) {
+                    System.out.println("Želite li nastaviti pretraživanje? (Da/Ne):");
+                    answer = sc.nextLine();
+
+                    try {
+                        if (!answer.equalsIgnoreCase("Da") && !answer.equalsIgnoreCase("Ne")) {
+                            throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+                        }
+                        break;
+                    } catch (InvalidDaNeException e) {
+                        System.out.println("Greška pri unosu -> " + e.getMessage());
+                        log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
+                    }
+                }
+
+            }while(answer.equalsIgnoreCase("Da"));
         }
         else
             System.out.println("Hvala i ugodan dan!");
@@ -405,12 +471,35 @@ public class Main {
             }
         }
 
-        System.out.println("Koji proizvod želite odabrati:");
-        System.out.println("(1) Najskuplji proizvod");
-        System.out.println("(2) Najjeftiniji proizvod");
-        System.out.println("Vaš odabir: ");
 
-        Integer odabir=sc.nextInt();
+
+
+        Integer odabir = null;
+        while (true) {
+            System.out.println("Koji proizvod želite odabrati:");
+            System.out.println("(1) Najskuplji proizvod");
+            System.out.println("(2) Najjeftiniji proizvod");
+            System.out.println("Vaš odabir: ");
+
+            try {
+                odabir = sc.nextInt();
+                sc.nextLine();
+
+                if (odabir != 1 && odabir != 2) {
+                    throw new InvalidOdabirException("Neispravan unos! Unesite 1 ili 2.");
+                }
+
+                break;
+            } catch (InvalidOdabirException e) {
+                System.out.println("Greška pri unosu -> " + e.getMessage());
+                log.error("Neispravan odabir", e);
+
+            } catch (InputMismatchException e) {
+                System.out.println("Greška: Morate unijeti broj!");
+                log.error("Neispravan odabir", e);
+                sc.nextLine();
+            }
+        }
 
         if(odabir.equals(1)){
             System.out.println("Najskuplji proizvod je: "+expensiveItem.getName()+" "+expensiveItem.getCategory());
@@ -424,7 +513,7 @@ public class Main {
             }
 
         }
-        else if(odabir.equals(2)){
+        if(odabir.equals(2)){
             System.out.println("Najjeftiniji proizvod je: "+cheapestItem.getName()+" "+cheapestItem.getCategory());
             System.out.println("Ukupna cijena je: "+cheapestItem.getPrice()+" EUR");
             System.out.print("Dostupnost proizvoda: ");
@@ -435,9 +524,6 @@ public class Main {
                 System.out.println("Dostupno");
             }
 
-        }
-        else{
-            System.out.println("Krivi odabir!");
         }
 
 
@@ -461,13 +547,34 @@ public class Main {
             }
         }
 
-        System.out.println("Koju narudžbu želite odabrati:");
-        System.out.println("(1) Najskuplja narudžba");
-        System.out.println("(2) Najjeftinija narudžba");
-        System.out.println("(3) Plaćene narudžbe");
-        System.out.println("Vaš odabir: ");
 
-        Integer odabir=sc.nextInt();
+        Integer odabir = null;
+        while (true) {
+            System.out.println("Koju narudžbu želite odabrati:");
+            System.out.println("(1) Najskuplja narudžba");
+            System.out.println("(2) Najjeftinija narudžba");
+            System.out.println("(3) Plaćene narudžbe");
+            System.out.println("Vaš odabir: ");
+
+            try {
+                odabir = sc.nextInt();
+                sc.nextLine();
+
+                if (odabir != 1 && odabir != 2 && odabir != 3) {
+                    throw new InvalidOdabirException("Neispravan unos! Unesite 1,2 ili 3.");
+                }
+
+                break;
+            } catch (InvalidOdabirException e) {
+                System.out.println("Greška pri unosu -> " + e.getMessage());
+                log.error("Neispravan odabir", e);
+
+            } catch (InputMismatchException e) {
+                System.out.println("Greška: Morate unijeti broj!");
+                log.error("Neispravan odabir", e);
+                sc.nextLine();
+            }
+        }
 
         if(odabir.equals(1)){
             System.out.println("Najskuplja narudžba je narudžba sa indexom: "+expensiveBooking.getBookingId());
@@ -480,9 +587,9 @@ public class Main {
             else {
                 System.out.println("Rezervirano");
             }
-
         }
-        else if(odabir.equals(2)){
+
+        if(odabir.equals(2)){
             System.out.println("Najjeftinija narudžba je narudžba sa indexom: "+cheapestBooking.getBookingId());
             System.out.println("Naručitelj: "+cheapestBooking.getUser().getUsername());
             System.out.println("Ukupna cijena je: "+cheapestBooking.getTotalPrice()+" EUR");
@@ -493,9 +600,9 @@ public class Main {
             else {
                 System.out.println("Rezervirano");
             }
-
         }
-        else if (odabir.equals(3)){
+
+        if (odabir.equals(3)){
 
             System.out.println("Plaćene narudžbe su:");
             boolean found=false;
@@ -515,12 +622,6 @@ public class Main {
             }
 
         }
-        else{
-            System.out.println("Krivi odabir!");
-        }
-
-
-
     }
 
 }
