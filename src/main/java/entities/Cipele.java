@@ -1,6 +1,5 @@
 package entities;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class Cipele extends Item {

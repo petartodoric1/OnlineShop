@@ -185,6 +185,7 @@ public class Main {
                 System.out.println("(2)Rezervirati");
                 System.out.println("Vaš odabir:");
                 String odgovor = sc.nextLine();
+
                 if (odgovor.equals("1")) {
                     System.out.println("Vaša narudžba je plaćena i poslana na vašu adresu!");
                     bookings[bookingIndex].markAsPayed();
@@ -301,7 +302,7 @@ public class Main {
         Integer odabir=sc.nextInt();
 
         if(odabir.equals(1)){
-            System.out.println("Najskuplji proizvod je: "+expensiveItem.getName());
+            System.out.println("Najskuplji proizvod je: "+expensiveItem.getName()+" "+expensiveItem.getCategory());
             System.out.println("Ukupna cijena je: "+expensiveItem.getPrice()+" EUR");
             System.out.print("Dostupnost proizvoda: ");
             if(expensiveItem.isSold()){
@@ -313,7 +314,7 @@ public class Main {
 
         }
         else if(odabir.equals(2)){
-            System.out.println("Najjeftiniji proizvod je: "+cheapestItem.getName());
+            System.out.println("Najjeftiniji proizvod je: "+cheapestItem.getName()+" "+cheapestItem.getCategory());
             System.out.println("Ukupna cijena je: "+cheapestItem.getPrice()+" EUR");
             System.out.print("Dostupnost proizvoda: ");
             if(cheapestItem.isSold()){
@@ -384,12 +385,22 @@ public class Main {
 
         }
         else if (odabir.equals(3)){
+
             System.out.println("Plaćene narudžbe su:");
+            boolean found=false;
             for(Integer i=0;i<records.length;i++){
-                System.out.println("Username: "+records[i].username()+
-                        ", Cijena narudžbe: "+records[i].price()+ " EUR"+
-                        ", BookingId: "+records[i].bookingId()+
-                        ", Vrijeme: "+records[i].time());
+
+                if(records[i]==null) continue;
+
+                    System.out.println("Username: " + records[i].username() +
+                            ", Cijena narudžbe: " + records[i].price() + " EUR" +
+                            ", BookingId: " + records[i].bookingId() +
+                            ", Vrijeme: " + records[i].time());
+                    found=true;
+            }
+
+            if(!found){
+                System.out.println("Nema plaćenih narudžbi!");
             }
 
         }
