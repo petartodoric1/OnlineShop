@@ -7,6 +7,10 @@ import entities.Majica;
 import entities.Hlace;
 import entities.Cipele;
 import entities.Record;
+import exceptions.InvalidDaNeException;
+import exceptions.InvalidInputException;
+import exceptions.InvalidOdabirException;
+import exceptions.LoginFailedException;
 
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
@@ -26,7 +30,14 @@ public class Main {
 
 
         users=generateUsers(sc);
+
+        try{
         items=generateItems(sc);
+        }catch (InvalidInputException e) {
+            System.out.println("Greška pri unosu vrijednosti -> "+e.getMessage());
+            return;
+        }
+
         bookings=generateBookings(sc,users,items,records);
         pretrazivanje(sc,bookings,items,records);
 
@@ -56,7 +67,7 @@ public class Main {
         return users;
     }
 
-    private static Item[] generateItems(Scanner sc) {
+    private static Item[] generateItems(Scanner sc) throws InvalidInputException {
         Item[] items=new Item[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
 
         Integer itemId=0;
@@ -71,7 +82,12 @@ public class Main {
             System.out.println("Ime:");
             String ime=sc.nextLine();
             System.out.println("Cijena:");
-            BigDecimal price=new BigDecimal(sc.nextLine());
+            BigDecimal price=null;
+            try {
+                 price = new BigDecimal(sc.nextLine());
+            }catch(NumberFormatException e) {
+                throw new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+            }
             System.out.println("Boja:");
             String boja=sc.nextLine();
             System.out.println("Veličina:");
@@ -90,7 +106,12 @@ public class Main {
             System.out.println("Ime:");
             String ime=sc.nextLine();
             System.out.println("Cijena:");
-            BigDecimal price=new BigDecimal(sc.nextLine());
+            BigDecimal price=null;
+            try {
+                price = new BigDecimal(sc.nextLine());
+            }catch(NumberFormatException e) {
+                throw new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+            }
             System.out.println("Boja:");
             String boja=sc.nextLine();
             System.out.println("Veličina:");
@@ -111,9 +132,19 @@ public class Main {
             System.out.println("Ime:");
             String ime=sc.nextLine();
             System.out.println("Cijena:");
-            BigDecimal price=new BigDecimal(sc.nextLine());
+            BigDecimal price=null;
+            try {
+                price = new BigDecimal(sc.nextLine());
+            }catch(NumberFormatException e) {
+                throw new InvalidInputException("Cijena mora biti brojčana vrijednost!");
+            }
             System.out.println("Veličina (npr. 42,42.5,43...):");
-            BigDecimal velicina= new BigDecimal(sc.nextLine());
+            BigDecimal velicina=null;
+            try {
+                velicina = new BigDecimal(sc.nextLine());
+            }catch(NumberFormatException e) {
+                throw new InvalidInputException("Veličina mora biti brojčana vrijednost!");
+            }
             itemId++;
 
             items[itemIndex]=new Cipele(ime,price,itemId,velicina);
@@ -123,15 +154,19 @@ public class Main {
         return items;
     }
 
-    private static Booking[] generateBookings(Scanner sc,User[] users,Item[] items,Record[] records) {
+    private static Booking[] generateBookings(Scanner sc,User[] users,Item[] items,Record[] records) throws InvalidDaNeException, InvalidOdabirException {
         Booking[] bookings=new Booking[NUMBER_OF_ALL];
         Integer recordId=0;
         for(Integer bookingIndex=0;bookingIndex< bookings.length;bookingIndex++) {
 
-            System.out.println("Dobar dan, zelite li nešto kupiti?");
+            System.out.println("Dobar dan, zelite li nešto kupiti? (Da/Ne):");
             String confirmation = sc.nextLine();
 
-            if (confirmation.equals("Da")) {
+            if(!confirmation.equalsIgnoreCase("Da") && !confirmation.equalsIgnoreCase("Ne")) {
+                throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+            }
+
+            if (confirmation.equalsIgnoreCase("Da")) {
 
                 Integer ordinal = 1;
                 Integer orderedIndex = 0;
@@ -139,7 +174,15 @@ public class Main {
                 Integer[] orderedQuantity = new Integer[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
                 String answer;
 
-                User selectedUser=login(sc,users);
+                User selectedUser=null;
+                try {
+                    selectedUser = login(sc, users);
+                }catch(LoginFailedException e) {
+                    System.out.println("Greška prilikom prijave -> "+e.getMessage());
+                    System.out.println("Povratak na početak kupnje...");
+                    bookingIndex--;
+                    continue;
+                }
 
                 do {
                     for (Item i : items) {
@@ -172,13 +215,22 @@ public class Main {
                     orderedQuantity[orderedIndex] = quantity;
                     orderedIndex++;
                     sc.nextLine();
-                    System.out.println("Želite li još neki proizvod:");
+                    System.out.println("Želite li još neki proizvod: (Da/Ne):");
                     answer = sc.nextLine();
 
                 } while ("Da".equals(answer));
 
+                //Provjerava jel korisnik nešto naručio, odnosno, jel odustao od kupnje ako je prva stvar bila rasprodana
+                if(orderedItems[0]!= null){
                 bookings[bookingIndex] = new Booking(selectedUser, orderedItems, orderedQuantity,bookingIndex);
                 System.out.println("Ukupna cijena vaše narudžbe je: "+bookings[bookingIndex].getTotalPrice()+" EUR\n");
+                }
+
+                else{
+                    System.out.println("Doviđenja i dođite nam opet!");
+                    bookingIndex--;
+                    continue;
+                }
 
                 System.out.println("Želite li platiti ili rezervirati narudžbu:");
                 System.out.println("(1)Platiti");
@@ -210,10 +262,69 @@ public class Main {
         return bookings;
     }
 
-    private static User login(Scanner sc, User[] users) {
+    private static User login(Scanner sc, User[] users) throws LoginFailedException {
 
         System.out.println("Unesite vaš username:");
-        boolean correctUserName = false;
+
+        String username = sc.nextLine();
+
+        User selectedUser=null;
+        for (User user : users) {
+            if (username.equals(user.getUsername())) {
+                selectedUser=user;
+                break;
+            }
+        }
+        if (selectedUser == null) {
+            System.out.println("Krivi username! Probajte ponovo.");
+            return login(sc,users);
+        }
+
+        int attempts=0;
+
+        while(true) {
+            System.out.println("Unesite password:");
+            String password = sc.nextLine();
+            if (password.equals(selectedUser.getPassword())) {
+                System.out.println("Uspiješna prijava! Nastavite s kupnjom!");
+                return selectedUser;
+            }
+            else {
+                attempts++;
+
+                if (attempts>=3) {
+                    throw new LoginFailedException("Previše neuspjelih pokušaja unosa passworda!");
+                }
+                System.out.println("Krivi password! Pokušajte ponovo:");
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*boolean correctUserName = false;
         int userIndex = 0;
         String username = sc.nextLine();
 
@@ -242,11 +353,11 @@ public class Main {
         User selectedUser = users[userIndex];
         System.out.println("Uspiješna prijava, nastavite s kupnjom!");
 
-        return selectedUser;
+        return selectedUser;*/
     }
 
     private static void pretrazivanje(Scanner sc,Booking[] bookings, Item[] items,Record[] records) {
-        System.out.println("Želite li započeti pretraživanje?");
+        System.out.println("Želite li započeti pretraživanje? (Da/Ne):");
         String confirmation=sc.nextLine();
 
         if (confirmation.equals("Da")) {
@@ -267,7 +378,7 @@ public class Main {
                     System.out.println("Krivi odabir!");
                 }
                 sc.nextLine();
-                System.out.println("Želite li nastaviti pretraživanje?");
+                System.out.println("Želite li nastaviti pretraživanje? (Da/Ne):");
                 answer = sc.nextLine();
             } while ("Da".equals(answer));
 
