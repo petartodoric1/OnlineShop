@@ -1,0 +1,61 @@
+2025-11-04 00:57:31,694 INFO [main] app.Main [Main.java:31] Pokretanje aplikacije ...
+2025-11-04 00:57:39,748 INFO [main] app.Main [Main.java:70] Uspješno generiran korisnik: pero
+2025-11-04 00:57:42,476 INFO [main] app.Main [Main.java:70] Uspješno generiran korisnik: alex
+2025-11-04 00:58:24,261 ERROR [main] app.Main [Main.java:182] Neispravan unos veličine
+java.lang.NumberFormatException: Character a is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:177)
+	at app.Main.main(Main.java:41)
+2025-11-04 00:58:37,405 DEBUG [main] app.Main [Main.java:200] Generiranje 0. narudžbe
+2025-11-04 00:58:42,300 INFO [main] app.Main [Main.java:412] Korisnik pero uspješno prijavljen.
+2025-11-04 00:59:22,157 DEBUG [main] app.Main [Main.java:200] Generiranje 1. narudžbe
+2025-11-04 00:59:30,485 WARN [main] app.Main [Main.java:423] Neuspješna prijava korisnika: alex
+2025-11-04 00:59:31,941 WARN [main] app.Main [Main.java:423] Neuspješna prijava korisnika: alex
+2025-11-04 00:59:33,293 INFO [main] app.Main [Main.java:412] Korisnik alex uspješno prijavljen.
+2025-11-04 01:00:07,284 ERROR [main] app.Main [Main.java:497] Pogrešan unos 'Da/Ne' od korisnika: daad
+2025-11-04 01:00:09,580 ERROR [main] app.Main [Main.java:497] Pogrešan unos 'Da/Ne' od korisnika: nenenen
+2025-11-04 01:00:12,349 ERROR [main] app.Main [Main.java:497] Pogrešan unos 'Da/Ne' od korisnika: k
+2025-11-04 01:00:13,157 ERROR [main] app.Main [Main.java:497] Pogrešan unos 'Da/Ne' od korisnika: 2
+2025-11-04 01:00:14,077 ERROR [main] app.Main [Main.java:497] Pogrešan unos 'Da/Ne' od korisnika: 34
+2025-11-04 01:00:26,141 INFO [main] app.Main [Main.java:31] Pokretanje aplikacije ...
+2025-11-04 01:00:30,027 INFO [main] app.Main [Main.java:70] Uspješno generiran korisnik: pero
+2025-11-04 01:00:34,110 INFO [main] app.Main [Main.java:70] Uspješno generiran korisnik: ss
+2025-11-04 01:00:39,618 DEBUG [main] app.Main [Main.java:200] Generiranje 0. narudžbe
+2025-11-04 01:00:39,794 ERROR [main] app.Main [Main.java:215] Pogrešan unos 'Da/Ne' od korisnika: 312
+2025-11-04 01:00:39,915 ERROR [main] app.Main [Main.java:215] Pogrešan unos 'Da/Ne' od korisnika: 3
+2025-11-04 01:00:45,604 INFO [main] app.Main [Main.java:412] Korisnik pero uspješno prijavljen.
+2025-11-04 01:00:49,173 ERROR [main] app.Main [Main.java:264] Neispravan odabir proizvoda!
+2025-11-04 01:00:52,756 ERROR [main] app.Main [Main.java:264] Neispravan odabir proizvoda!
+2025-11-04 01:00:58,652 DEBUG [main] app.Main [Main.java:200] Generiranje 1. narudžbe
+2025-11-04 01:01:03,836 INFO [main] app.Main [Main.java:412] Korisnik pero uspješno prijavljen.
+2025-11-04 01:01:06,533 ERROR [main] app.Main [Main.java:264] Neispravan odabir proizvoda!
+2025-11-04 01:01:09,580 WARN [main] app.Main [Main.java:288] Pogrešan unos 'Da/Ne' od korisnika: 3
+2025-11-04 01:12:45,814 INFO [main] app.Main [Main.java:31] Pokretanje aplikacije ...
+2025-11-04 01:12:45,823 TRACE [main] app.Main [Main.java:51] Započeto generiranje korisnika.
+2025-11-04 01:12:49,477 INFO [main] app.Main [Main.java:70] Uspješno generiran korisnik: pero
+2025-11-04 01:12:53,357 INFO [main] app.Main [Main.java:70] Uspješno generiran korisnik: pex
+2025-11-04 01:12:53,357 TRACE [main] app.Main [Main.java:72] Završeno generiranje korisnika.
+2025-11-04 01:12:53,357 TRACE [main] app.Main [Main.java:77] Započeto generiranje proizvoda.
+2025-11-04 01:13:02,657 TRACE [main] app.Main [Main.java:191] Završeno generiranje proizvoda.
+2025-11-04 01:13:02,657 TRACE [main] app.Main [Main.java:196] Započeto generiranje narudžbi.
+2025-11-04 01:13:02,657 DEBUG [main] app.Main [Main.java:200] Generiranje 0. narudžbe
+2025-11-04 01:13:03,581 ERROR [main] app.Main [Main.java:215] Pogrešan unos 'Da/Ne' od korisnika: 12
+2025-11-04 01:13:08,395 INFO [main] app.Main [Main.java:425] Korisnik pero uspješno prijavljen.
+2025-11-04 01:13:12,557 ERROR [main] app.Main [Main.java:308] Unesen string umjesto broj!
+2025-11-04 01:13:21,252 DEBUG [main] app.Main [Main.java:200] Generiranje 1. narudžbe
+2025-11-04 01:13:25,092 WARN [main] app.Main [Main.java:436] Neuspješna prijava korisnika: pex
+2025-11-04 01:13:26,570 WARN [main] app.Main [Main.java:436] Neuspješna prijava korisnika: pex
+2025-11-04 01:13:30,465 INFO [main] app.Main [Main.java:425] Korisnik pex uspješno prijavljen.
+2025-11-04 01:13:38,301 TRACE [main] app.Main [Main.java:397] Završeno generiranje narudžbi.
+2025-11-04 01:13:41,409 WARN [main] app.Main [Main.java:457] Pogrešan unos 'Da/Ne' od korisnika: hocu
+2025-11-04 01:13:51,308 ERROR [main] app.Main [Main.java:563] Neispravan odabir
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:977)
+	at java.base/java.util.Scanner.next(Scanner.java:1632)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2297)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2251)
+	at app.Main.odabirProizvoda(Main.java:549)
+	at app.Main.pretrazivanje(Main.java:491)
+	at app.Main.main(Main.java:45)
