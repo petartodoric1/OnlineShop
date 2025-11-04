@@ -1,5 +1,8 @@
 package entities;
 
+/**
+ * Predstavlja jednog korisnika
+ */
 public class User {
 
     private String username;
@@ -21,6 +24,10 @@ public class User {
         return userId;
     }
 
+    /**
+     * Kreira jednog korisnika sa obaveznim parametrima
+     * @param builder
+     */
     private User(Builder builder){
 
         this.username=builder.username;

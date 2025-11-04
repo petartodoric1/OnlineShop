@@ -2,11 +2,22 @@ package entities;
 
 import java.math.BigDecimal;
 
+/**
+ * Predstavlja jednu Majicu
+ */
 public class Majica extends Item {
 
     private String color;
     private String size;
 
+    /**
+     * Kreira jednu majicu sa predanim parametrima
+     * @param name
+     * @param price
+     * @param itemId
+     * @param color
+     * @param size
+     */
     public Majica(String name, BigDecimal price, Integer itemId, String color, String size) {
         super(name,price,itemId);
         this.color = color;

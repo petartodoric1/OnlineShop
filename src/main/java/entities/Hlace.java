@@ -2,12 +2,24 @@ package entities;
 
 import java.math.BigDecimal;
 
+/**
+ * Predstavlja proizvod Hlače
+ */
 public class Hlace extends Item {
 
     private String color;
     private String size;
     private String type;
 
+    /**
+     * Kreira proizvod Hlače sa predanim parametrima
+     * @param name
+     * @param price
+     * @param itemId
+     * @param color
+     * @param size
+     * @param type
+     */
     public Hlace(String name, BigDecimal price, Integer itemId, String color, String size, String type){
         super(name, price, itemId);
         this.color = color;

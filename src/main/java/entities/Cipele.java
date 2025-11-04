@@ -2,11 +2,21 @@ package entities;
 
 import java.math.BigDecimal;
 
+/**
+ * Predstavlja jedan par cipela
+ */
 public class Cipele extends Item {
 
 
     private BigDecimal size;
 
+    /**
+     * Kreira jedan par cipela sa predanim parametrima
+     * @param name
+     * @param price
+     * @param itemId
+     * @param size
+     */
     public Cipele(String name, BigDecimal price, Integer itemId, BigDecimal size) {
         super(name, price, itemId);
         this.size = size;

@@ -19,12 +19,28 @@ import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
+/**
+ * Služi za pokretanje programa Online Shop
+ *
+ * <p>Aplikacija omogućava:</p>
+ * <ul>
+ *   <li>Kreiranje korisnika i artikala</li>
+ *   <li>Izradu narudžbi i evidenciju kupnji</li>
+ *   <li>Pretraživanje proizvoda i narudžbi</li>
+ * </ul>
+ */
+
 public class Main {
 
     private static Logger log= LoggerFactory.getLogger(Main.class);
 
     private static final Integer NUMBER_OF_ALL = 2 ;
     private static final Integer NUMBER_OF_ITEMS = 3;
+
+    /**
+     * Pokreće generiranje korisnika, artikala i narudžbi te omogućuje pretraživanje.
+     */
 
     static void main() {
 
@@ -46,7 +62,13 @@ public class Main {
 
     }
 
-
+    /**
+     * Generira korisnike prema unosu korisnika preko konzole i svakom korisniku dodjeljuje username i password.
+     * <p>Korisnicima se automatski dodjeljuje ID</p>
+     *
+     * @param sc Scanner objekt za unos podataka s konzole
+     * @return polje {@link User} objekata
+     */
     private static User[] generateUsers(Scanner sc) {
         log.trace("Započeto generiranje korisnika.");
         User[] users=new User[NUMBER_OF_ALL];
@@ -72,7 +94,15 @@ public class Main {
         log.trace("Završeno generiranje korisnika.");
         return users;
     }
-
+    /**
+     * Generira proizvode (majice, hlače i cipele).
+     * <p>Metoda provjerava ispravnost cijene i veličine te u slučaju pogreške traži ponovni unos.</p>
+     *
+     * @param sc Scanner objekt za unos
+     * @throws NumberFormatException ako se unese String umjesto brojčane vrijednosti
+     * @throws InvalidInputException ako korisnik unese krivu vrijednost za traženi atribut objekta
+     * @return polje {@link Item} objekata
+     */
     private static Item[] generateItems(Scanner sc)  {
         log.trace("Započeto generiranje proizvoda.");
         Item[] items=new Item[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
@@ -191,6 +221,21 @@ public class Main {
         log.trace("Završeno generiranje proizvoda.");
         return items;
     }
+
+    /**
+     * Generira narudžbe korisnika na temelju dostupnih artikala.
+     * Omogućuje prijavu korisnika, odabir proizvoda, količina i odabir plaćanja ili rezervacije.
+     *
+     * @param sc Scanner objekt za unos
+     * @param users polje postojećih korisnika
+     * @param items polje dostupnih artikala
+     * @param records polje zapisa o plaćenim narudžbama
+     * @throws InvalidDaNeException ako korisnik na Da/Ne pitanje unese nešto treće
+     * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđena
+     * @throws LoginFailedException ako korisnik tri puta unese pogrešnu lozinku
+     * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
+     * @return polje {@link Booking} objekata
+     */
 
     private static Booking[] generateBookings(Scanner sc,User[] users,Item[] items,Record[] records)  {
         log.trace("Započeto generiranje narudžbi.");
@@ -398,6 +443,16 @@ public class Main {
         return bookings;
     }
 
+    /**
+     * Autentificira korisnika prema unesenom korisničkom imenu i lozinci.
+     * <p>Dozvoljena su tri pokušaja unosa lozinke prije nego što se baci iznimka i postupak autentifikacije ponovo pokrene.</p>
+     *
+     * @param sc Scanner objekt za unos
+     * @param users polje korisnika za provjeru prijave
+     * @return prijavljeni {@link User}
+     * @throws LoginFailedException ako korisnik tri puta unese pogrešnu lozinku
+     */
+
     private static User login(Scanner sc, User[] users) throws LoginFailedException {
 
         System.out.println("Unesite vaš username:");
@@ -440,6 +495,18 @@ public class Main {
 
     }
 
+    /**
+     * Omogućuje pretraživanje proizvoda i narudžbi.
+     * <p>Korisnik može odabrati između pregleda proizvoda ili narudžbi.</p>
+     *
+     * @param sc Scanner objekt za unos
+     * @param bookings polje svih narudžbi
+     * @param items polje svih artikala
+     * @param records polje svih zapisa o plaćenim narudžbama
+     * @throws InvalidDaNeException ako korisnik na Da/Ne pitanje unese nešto treće
+     * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
+     * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
+     */
     private static void pretrazivanje(Scanner sc,Booking[] bookings, Item[] items,Record[] records) {
 
         String confirmation=null;
@@ -519,6 +586,15 @@ public class Main {
             System.out.println("Hvala i ugodan dan!");
     }
 
+    /**
+     * Prikazuje najskuplji ili najjeftiniji proizvod.
+     * <p>Uključuje i informaciju o dostupnosti proizvoda.</p>
+     *
+     * @param sc Scanner objekt za unos
+     * @param items polje artikala za pretragu
+     * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
+     * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
+     */
     private static void odabirProizvoda(Scanner sc,Item[] items) {
         Item cheapestItem=items[0];
         Item expensiveItem=items[0];
@@ -594,6 +670,16 @@ public class Main {
 
 
     }
+
+    /**
+     * Omogućuje pregled narudžbi prema cijeni (najskuplja, najjeftinija) ili pregled svih plaćenih narudžbi.
+     *
+     * @param sc Scanner objekt za unos
+     * @param bookings polje svih narudžbi
+     * @param records polje svih zapisa o plaćenim narudžbama
+     * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
+     * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
+     */
     private static void odabirNarudzbe(Scanner sc,Booking[] bookings,Record[] records) {
 
         Booking cheapestBooking=bookings[0];

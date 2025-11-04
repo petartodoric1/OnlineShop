@@ -2,6 +2,10 @@ package entities;
 
 import java.math.BigDecimal;
 
+/**
+ * Predstavlja narudžbu korisnika koja sadrži artikle, količine i status plaćanja.
+ * Svaka narudžba ima jedinstveni ID te može biti označena kao plaćena.
+ */
 public final class Booking implements Payed {
 
     private User user;
@@ -10,6 +14,13 @@ public final class Booking implements Payed {
     private Integer bookingId;
     private boolean isPayed=false;
 
+    /**
+     *Kreira novu narudžbu sa predanim parametrima
+     * @param user
+     * @param items
+     * @param quantity
+     * @param bookingId
+     */
     public Booking(User user, Item[] items, Integer[] quantity, Integer bookingId) {
         this.user = user;
         this.items = items;

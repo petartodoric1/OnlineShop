@@ -2,6 +2,10 @@ package entities;
 
 import java.math.BigDecimal;
 
+/**
+ * Predstavlja jedan proizvod
+ * <p>Apstraktna klasa od koje ostatak proizvoda nasljeđuje atribute name,price,ItemId</p>
+ */
 public abstract class Item implements Sold{
 
     private String name;
@@ -9,7 +13,12 @@ public abstract class Item implements Sold{
     private Integer itemId;
     private boolean sold= false;
 
-
+    /**
+     * Generira jedan item
+     * @param name
+     * @param price
+     * @param itemId
+     */
     public Item(String name, BigDecimal price, Integer itemId) {
         this.name = name;
         this.price = price;
