@@ -48,6 +48,7 @@ public class Main {
 
 
     private static User[] generateUsers(Scanner sc) {
+        log.trace("Započeto generiranje korisnika.");
         User[] users=new User[NUMBER_OF_ALL];
         System.out.println("Generirajte korisnike!");
 
@@ -66,11 +67,14 @@ public class Main {
             Integer userId=i+1;
 
             users[i]= new User.Builder(username,password).userId(userId).build();
+            log.info("Uspješno generiran korisnik: {}",username);
         }
+        log.trace("Završeno generiranje korisnika.");
         return users;
     }
 
     private static Item[] generateItems(Scanner sc)  {
+        log.trace("Započeto generiranje proizvoda.");
         Item[] items=new Item[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
 
         Integer itemId=0;
@@ -184,14 +188,16 @@ public class Main {
             items[itemIndex]=new Cipele(ime,price,itemId,velicina);
             itemIndex++;
         }
-
+        log.trace("Završeno generiranje proizvoda.");
         return items;
     }
 
     private static Booking[] generateBookings(Scanner sc,User[] users,Item[] items,Record[] records)  {
+        log.trace("Započeto generiranje narudžbi.");
         Booking[] bookings=new Booking[NUMBER_OF_ALL];
         Integer recordId=0;
         for(Integer bookingIndex=0;bookingIndex< bookings.length;bookingIndex++) {
+            log.debug("Generiranje {}. narudžbe", bookingIndex);
 
             String confirmation=null;
 
@@ -206,7 +212,7 @@ public class Main {
                     break;
                 }catch(InvalidDaNeException e) {
                     System.out.println("Greška pri unosu -> "+e.getMessage());
-                    log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", confirmation);
+                    log.error("Pogrešan unos 'Da/Ne' od korisnika: {}", confirmation);
                 }
 
 
@@ -225,6 +231,7 @@ public class Main {
                 try {
                     selectedUser = login(sc, users);
                 }catch(LoginFailedException e) {
+                    log.error("Neuspjela prijava korisnika");
                     System.out.println("Greška prilikom prijave -> "+e.getMessage());
                     System.out.println("Povratak na početak kupnje...");
                     bookingIndex--;
@@ -241,37 +248,68 @@ public class Main {
                     }
                     ordinal = 1;
 
-                    System.out.println("Odaberite proizvod:");
-                    Integer choice = sc.nextInt();
+                    Integer choice=null;
+                    while(true) {
 
-                    Item selectedItem = items[choice - 1];
+                        System.out.println("Odaberite proizvod:");
+                        choice = sc.nextInt();
+                        try {
 
-                    if(selectedItem.isSold()){
-                        System.out.println("Ovaj proizvod je rasprodan!");
-                        sc.nextLine();
-                        while(true) {
-                            System.out.println("Želite li neki drugi proizvod? (Da/Ne):");
-                            answer = sc.nextLine();
-
-                            try{
-                                if(!answer.equalsIgnoreCase("Da")&&!answer.equalsIgnoreCase("Ne")) {
-                                    throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
-                                }
-                                break;
-                            }catch(InvalidDaNeException e) {
-                                System.out.println("Greška pri unosu -> "+e.getMessage());
-                                log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
+                            if (choice > items.length || choice < 1) {
+                                throw new InvalidOdabirException("Odabrali ste nepostojeći proizvod!");
                             }
+                            break;
+                        } catch (InvalidOdabirException e) {
+                            System.out.println("Greška pri unosu -> " + e.getMessage());
+                            log.error("Neispravan odabir proizvoda!");
+
+                        } catch (InputMismatchException e) {
+                            System.out.println("Greška: Morate unijeti broj!");
+                            sc.nextLine();
+                            log.error("Unesen string umjesto brojčane vrijednosti");
                         }
-                        continue;
+                    }
+
+                        Item selectedItem = items[choice - 1];
+                        if (selectedItem.isSold()) {
+                            System.out.println("Ovaj proizvod je rasprodan!");
+                            sc.nextLine();
+                            while (true) {
+                                System.out.println("Želite li neki drugi proizvod? (Da/Ne):");
+                                answer = sc.nextLine();
+
+                                try {
+                                    if (!answer.equalsIgnoreCase("Da") && !answer.equalsIgnoreCase("Ne")) {
+                                        throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
+                                    }
+                                    break;
+                                } catch (InvalidDaNeException e) {
+                                    System.out.println("Greška pri unosu -> " + e.getMessage());
+                                    log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
+                                }
+                            }
+                            continue;
+
+                        }
+
+                        selectedItem.markAsSold();
+                        orderedItems[orderedIndex] = selectedItem;
+
+
+                    Integer quantity=null;
+                    while(true) {
+                        System.out.println("Odaberite količinu:");
+                        try{
+                            quantity=sc.nextInt();
+                            break;
+                        }catch(InputMismatchException e) {
+                            System.out.println("Greška: Morate unijeti broj!");
+                            sc.nextLine();
+                            log.error("Unesen string umjesto broj!");
+                        }
 
                     }
 
-                    selectedItem.markAsSold();
-                    orderedItems[orderedIndex] = selectedItem;
-
-                    System.out.println("Odaberite količinu:");
-                    Integer quantity = sc.nextInt();
                     orderedQuantity[orderedIndex] = quantity;
                     orderedIndex++;
                     sc.nextLine();
@@ -286,7 +324,7 @@ public class Main {
                             break;
                         }catch(InvalidDaNeException e) {
                             System.out.println("Greška pri unosu -> "+e.getMessage());
-                            log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
+                            log.error("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
                         }
                     }
 
@@ -304,13 +342,38 @@ public class Main {
                     continue;
                 }
 
-                System.out.println("Želite li platiti ili rezervirati narudžbu:");
-                System.out.println("(1)Platiti");
-                System.out.println("(2)Rezervirati");
-                System.out.println("Vaš odabir:");
-                String odgovor = sc.nextLine();
+                Integer odgovor = null;
+                while (true) {
+                    System.out.println("Želite li platiti ili rezervirati narudžbu:");
+                    System.out.println("(1)Platiti");
+                    System.out.println("(2)Rezervirati");
+                    System.out.println("Vaš odabir:");
 
-                if (odgovor.equals("1")) {
+                    try {
+                        odgovor = sc.nextInt();
+                        sc.nextLine();
+
+                        if (odgovor != 1 && odgovor != 2) {
+                            throw new InvalidOdabirException("Neispravan unos! Unesite 1 ili 2.");
+                        }
+
+                        break;
+                    } catch (InvalidOdabirException e) {
+                        System.out.println("Greška pri unosu -> " + e.getMessage());
+                        log.error("Neispravan unos za odabir plaćanja ili rezerviranja");
+
+                    } catch (InputMismatchException e) {
+                        System.out.println("Greška: Morate unijeti broj!");
+                        sc.nextLine();
+                        log.error("Unesen string umjesto brojčane vrijednosti");
+                    }
+                }
+
+
+
+
+
+                if (odgovor.equals(1)) {
                     System.out.println("Vaša narudžba je plaćena i poslana na vašu adresu!");
                     bookings[bookingIndex].markAsPayed();
 
@@ -321,7 +384,7 @@ public class Main {
                     recordId++;
 
                 }
-                else{
+                if(odgovor.equals(2)) {
                     System.out.println("Vaša narudžba vas čeka u našoj poslovnici!");
                 }
 
@@ -331,6 +394,7 @@ public class Main {
                 bookingIndex--;
             }
         }
+        log.trace("Završeno generiranje narudžbi.");
         return bookings;
     }
 
@@ -390,7 +454,7 @@ public class Main {
                 break;
             }catch(InvalidDaNeException e) {
                 System.out.println("Greška pri unosu -> "+e.getMessage());
-                log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", confirmation);
+                log.error("Pogrešan unos 'Da/Ne' od korisnika: {}", confirmation);
             }
         }
 
@@ -415,9 +479,11 @@ public class Main {
                         break;
                     } catch (InvalidOdabirException e) {
                         System.out.println("Greška pri unosu -> " + e.getMessage());
+                        log.error("Pogrešan odabir kod pretraživanja proizvoda ili narudžbi");
 
                     } catch (InputMismatchException e) {
                         System.out.println("Greška: Morate unijeti broj!");
+                        log.error("Unesen string umjesto broja kod odabira pretraživanja proizvoda ili narudžbi ");
                         sc.nextLine();
                     }
                 }
@@ -443,7 +509,7 @@ public class Main {
                         break;
                     } catch (InvalidDaNeException e) {
                         System.out.println("Greška pri unosu -> " + e.getMessage());
-                        log.warn("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
+                        log.error("Pogrešan unos 'Da/Ne' od korisnika: {}", answer);
                     }
                 }
 
