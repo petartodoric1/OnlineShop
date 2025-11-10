@@ -231,9 +231,9 @@ public class Main {
      * Omogućuje prijavu korisnika, odabir proizvoda, količina i odabir plaćanja ili rezervacije.
      *
      * @param sc Scanner objekt za unos
-     * @param users polje postojećih korisnika
-     * @param items polje dostupnih artikala
-     * @param records polje zapisa o plaćenim narudžbama
+     * @param users lista postojećih korisnika
+     * @param items lista dostupnih artikala
+     * @param records set zbirka zapisa o plaćenim narudžbama
      * @throws InvalidDaNeException ako korisnik na Da/Ne pitanje unese nešto treće
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđena
      * @throws LoginFailedException ako korisnik tri puta unese pogrešnu lozinku
@@ -463,7 +463,7 @@ public class Main {
      * <p>Dozvoljena su tri pokušaja unosa lozinke prije nego što se baci iznimka i postupak autentifikacije ponovo pokrene.</p>
      *
      * @param sc Scanner objekt za unos
-     * @param users polje korisnika za provjeru prijave
+     * @param users lista korisnika za provjeru prijave
      * @return prijavljeni {@link User}
      * @throws LoginFailedException ako korisnik tri puta unese pogrešnu lozinku
      */
@@ -516,9 +516,9 @@ public class Main {
      * <p>Korisnik može odabrati između pregleda proizvoda ili narudžbi.</p>
      *
      * @param sc Scanner objekt za unos
-     * @param bookings polje svih narudžbi
-     * @param items polje svih artikala
-     * @param records polje svih zapisa o plaćenim narudžbama
+     * @param bookings lista svih narudžbi
+     * @param items lista svih artikala
+     * @param records set zbirka svih zapisa o plaćenim narudžbama
      * @throws InvalidDaNeException ako korisnik na Da/Ne pitanje unese nešto treće
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
@@ -611,7 +611,7 @@ public class Main {
      * <p>Uključuje i informaciju o dostupnosti proizvoda.</p>
      *
      * @param sc Scanner objekt za unos
-     * @param items polje artikala za pretragu
+     * @param items lista artikala za pretragu
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
      */
