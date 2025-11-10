@@ -59,3 +59,140 @@ java.util.InputMismatchException: null
 	at app.Main.odabirProizvoda(Main.java:549)
 	at app.Main.pretrazivanje(Main.java:491)
 	at app.Main.main(Main.java:45)
+2025-11-05 21:13:02,692 INFO [main] app.Main [Main.java:47] Pokretanje aplikacije ...
+2025-11-05 21:13:02,719 TRACE [main] app.Main [Main.java:73] Započeto generiranje korisnika.
+2025-11-05 21:13:09,581 INFO [main] app.Main [Main.java:92] Uspješno generiran korisnik: pero
+2025-11-05 21:13:13,338 INFO [main] app.Main [Main.java:92] Uspješno generiran korisnik: marina
+2025-11-05 21:13:13,339 TRACE [main] app.Main [Main.java:94] Završeno generiranje korisnika.
+2025-11-05 21:13:13,339 TRACE [main] app.Main [Main.java:107] Započeto generiranje proizvoda.
+2025-11-05 21:14:28,619 ERROR [main] app.Main [Main.java:212] Neispravan unos veličine
+java.lang.NumberFormatException: Character l is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:207)
+	at app.Main.main(Main.java:57)
+2025-11-05 21:14:39,633 ERROR [main] app.Main [Main.java:212] Neispravan unos veličine
+java.lang.NumberFormatException: Character l is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:207)
+	at app.Main.main(Main.java:57)
+2025-11-05 21:14:42,526 TRACE [main] app.Main [Main.java:221] Završeno generiranje proizvoda.
+2025-11-05 21:14:42,527 TRACE [main] app.Main [Main.java:241] Započeto generiranje narudžbi.
+2025-11-05 21:14:42,527 DEBUG [main] app.Main [Main.java:245] Generiranje 0. narudžbe
+2025-11-05 21:14:47,240 WARN [main] app.Main [Main.java:491] Neuspješna prijava korisnika: pero
+2025-11-05 21:14:48,336 WARN [main] app.Main [Main.java:491] Neuspješna prijava korisnika: pero
+2025-11-05 21:14:49,345 INFO [main] app.Main [Main.java:480] Korisnik pero uspješno prijavljen.
+2025-11-05 21:15:20,113 ERROR [main] app.Main [Main.java:309] Neispravan odabir proizvoda!
+2025-11-05 21:15:29,633 DEBUG [main] app.Main [Main.java:245] Generiranje 1. narudžbe
+2025-11-05 21:15:39,112 INFO [main] app.Main [Main.java:480] Korisnik marina uspješno prijavljen.
+2025-11-05 21:15:58,256 WARN [main] app.Main [Main.java:333] Pogrešan unos 'Da/Ne' od korisnika: 3
+2025-11-05 21:16:03,578 TRACE [main] app.Main [Main.java:442] Završeno generiranje narudžbi.
+2025-11-05 21:16:13,408 ERROR [main] app.Main [Main.java:549] Pogrešan odabir kod pretraživanja proizvoda ili narudžbi
+2025-11-10 20:33:08,691 INFO [main] app.Main [Main.java:49] Pokretanje aplikacije ...
+2025-11-10 20:33:08,719 TRACE [main] app.Main [Main.java:76] Započeto generiranje korisnika.
+2025-11-10 20:33:13,242 INFO [main] app.Main [Main.java:97] Uspješno generiran korisnik: pero
+2025-11-10 20:33:17,459 INFO [main] app.Main [Main.java:97] Uspješno generiran korisnik: alex
+2025-11-10 20:33:17,460 TRACE [main] app.Main [Main.java:99] Završeno generiranje korisnika.
+2025-11-10 20:33:17,460 TRACE [main] app.Main [Main.java:114] Započeto generiranje proizvoda.
+2025-11-10 20:33:23,233 ERROR [main] app.Main [Main.java:139] Neispravan unos cijene
+java.lang.NumberFormatException: Character a is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:134)
+	at app.Main.main(Main.java:60)
+2025-11-10 20:33:27,804 ERROR [main] app.Main [Main.java:139] Neispravan unos cijene
+java.lang.NumberFormatException: Character d is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:134)
+	at app.Main.main(Main.java:60)
+2025-11-10 20:33:38,689 TRACE [main] app.Main [Main.java:228] Završeno generiranje proizvoda.
+2025-11-10 20:33:38,689 TRACE [main] app.Main [Main.java:248] Započeto generiranje narudžbi.
+2025-11-10 20:33:38,689 DEBUG [main] app.Main [Main.java:252] Generiranje 0. narudžbe
+2025-11-10 20:33:43,857 WARN [main] app.Main [Main.java:499] Neuspješna prijava korisnika: pero
+2025-11-10 20:33:44,995 INFO [main] app.Main [Main.java:488] Korisnik pero uspješno prijavljen.
+2025-11-10 20:33:56,153 DEBUG [main] app.Main [Main.java:252] Generiranje 1. narudžbe
+2025-11-10 20:34:00,544 INFO [main] app.Main [Main.java:488] Korisnik alex uspješno prijavljen.
+2025-11-10 20:34:08,090 TRACE [main] app.Main [Main.java:449] Završeno generiranje narudžbi.
+2025-11-10 23:09:47,464 INFO [main] app.Main [Main.java:49] Pokretanje aplikacije ...
+2025-11-10 23:09:47,486 TRACE [main] app.Main [Main.java:76] Započeto generiranje korisnika.
+2025-11-10 23:09:56,576 INFO [main] app.Main [Main.java:97] Uspješno generiran korisnik: pero
+2025-11-10 23:09:59,249 INFO [main] app.Main [Main.java:97] Uspješno generiran korisnik: alex
+2025-11-10 23:09:59,250 TRACE [main] app.Main [Main.java:99] Završeno generiranje korisnika.
+2025-11-10 23:09:59,250 TRACE [main] app.Main [Main.java:114] Započeto generiranje proizvoda.
+2025-11-10 23:10:30,961 ERROR [main] app.Main [Main.java:219] Neispravan unos veličine
+java.lang.NumberFormatException: Character a is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:214)
+	at app.Main.main(Main.java:60)
+2025-11-10 23:10:41,815 TRACE [main] app.Main [Main.java:228] Završeno generiranje proizvoda.
+2025-11-10 23:10:41,815 TRACE [main] app.Main [Main.java:248] Započeto generiranje narudžbi.
+2025-11-10 23:10:41,815 DEBUG [main] app.Main [Main.java:252] Generiranje 0. narudžbe
+2025-11-10 23:10:47,041 INFO [main] app.Main [Main.java:488] Korisnik pero uspješno prijavljen.
+2025-11-10 23:11:01,014 DEBUG [main] app.Main [Main.java:252] Generiranje 1. narudžbe
+2025-11-10 23:11:07,093 INFO [main] app.Main [Main.java:488] Korisnik alex uspješno prijavljen.
+2025-11-10 23:11:16,967 WARN [main] app.Main [Main.java:340] Pogrešan unos 'Da/Ne' od korisnika: 3
+2025-11-10 23:11:26,255 TRACE [main] app.Main [Main.java:449] Završeno generiranje narudžbi.
+2025-11-10 23:21:46,455 INFO [main] app.Main [Main.java:46] Pokretanje aplikacije ...
+2025-11-10 23:21:46,462 TRACE [main] app.Main [Main.java:74] Započeto generiranje korisnika.
+2025-11-10 23:21:50,993 INFO [main] app.Main [Main.java:95] Uspješno generiran korisnik: pero
+2025-11-10 23:21:55,224 INFO [main] app.Main [Main.java:95] Uspješno generiran korisnik: aleks
+2025-11-10 23:21:55,225 TRACE [main] app.Main [Main.java:97] Završeno generiranje korisnika.
+2025-11-10 23:21:55,225 TRACE [main] app.Main [Main.java:112] Započeto generiranje proizvoda.
+2025-11-10 23:22:01,958 TRACE [main] app.Main [Main.java:226] Završeno generiranje proizvoda.
+2025-11-10 23:22:01,959 TRACE [main] app.Main [Main.java:246] Započeto generiranje narudžbi.
+2025-11-10 23:22:01,959 DEBUG [main] app.Main [Main.java:250] Generiranje 0. narudžbe
+2025-11-10 23:22:02,110 ERROR [main] app.Main [Main.java:265] Pogrešan unos 'Da/Ne' od korisnika: 23
+2025-11-10 23:22:02,262 ERROR [main] app.Main [Main.java:265] Pogrešan unos 'Da/Ne' od korisnika: 4
+2025-11-10 23:22:02,430 ERROR [main] app.Main [Main.java:265] Pogrešan unos 'Da/Ne' od korisnika: 234
+2025-11-10 23:22:02,623 ERROR [main] app.Main [Main.java:265] Pogrešan unos 'Da/Ne' od korisnika: 
+2025-11-10 23:22:06,880 INFO [main] app.Main [Main.java:486] Korisnik pero uspješno prijavljen.
+2025-11-10 23:22:14,929 DEBUG [main] app.Main [Main.java:250] Generiranje 1. narudžbe
+2025-11-10 23:22:25,727 WARN [main] app.Main [Main.java:497] Neuspješna prijava korisnika: aleks
+2025-11-10 23:22:26,528 WARN [main] app.Main [Main.java:497] Neuspješna prijava korisnika: aleks
+2025-11-10 23:22:27,392 ERROR [main] app.Main [Main.java:284] Neuspjela prijava korisnika
+2025-11-10 23:22:27,392 DEBUG [main] app.Main [Main.java:250] Generiranje 1. narudžbe
+2025-11-10 23:22:32,831 INFO [main] app.Main [Main.java:486] Korisnik aleks uspješno prijavljen.
+2025-11-10 23:22:37,941 TRACE [main] app.Main [Main.java:447] Završeno generiranje narudžbi.
+2025-11-11 00:24:58,825 INFO [main] app.Main [Main.java:46] Pokretanje aplikacije ...
+2025-11-11 00:24:58,833 TRACE [main] app.Main [Main.java:73] Započeto generiranje korisnika.
+2025-11-11 00:25:02,671 INFO [main] app.Main [Main.java:94] Uspješno generiran korisnik: pero
+2025-11-11 00:25:04,479 INFO [main] app.Main [Main.java:94] Uspješno generiran korisnik: alex
+2025-11-11 00:25:04,479 TRACE [main] app.Main [Main.java:96] Završeno generiranje korisnika.
+2025-11-11 00:25:04,480 TRACE [main] app.Main [Main.java:111] Započeto generiranje proizvoda.
+2025-11-11 00:25:36,536 TRACE [main] app.Main [Main.java:225] Završeno generiranje proizvoda.
+2025-11-11 00:25:36,537 TRACE [main] app.Main [Main.java:245] Započeto generiranje narudžbi.
+2025-11-11 00:25:36,537 DEBUG [main] app.Main [Main.java:249] Generiranje 0. narudžbe
+2025-11-11 00:25:40,718 INFO [main] app.Main [Main.java:496] Korisnik pero uspješno prijavljen.
+2025-11-11 00:25:46,243 DEBUG [main] app.Main [Main.java:249] Generiranje 1. narudžbe
+2025-11-11 00:25:52,254 INFO [main] app.Main [Main.java:496] Korisnik alex uspješno prijavljen.
+2025-11-11 00:26:03,112 TRACE [main] app.Main [Main.java:457] Završeno generiranje narudžbi.
+2025-11-11 00:35:35,485 INFO [main] app.Main [Main.java:46] Pokretanje aplikacije ...
+2025-11-11 00:35:35,494 TRACE [main] app.Main [Main.java:73] Započeto generiranje korisnika.
+2025-11-11 00:35:41,783 INFO [main] app.Main [Main.java:94] Uspješno generiran korisnik: pero
+2025-11-11 00:36:01,070 INFO [main] app.Main [Main.java:94] Uspješno generiran korisnik: alex
+2025-11-11 00:36:01,070 TRACE [main] app.Main [Main.java:96] Završeno generiranje korisnika.
+2025-11-11 00:36:01,070 TRACE [main] app.Main [Main.java:111] Započeto generiranje proizvoda.
+2025-11-11 00:36:34,472 ERROR [main] app.Main [Main.java:216] Neispravan unos veličine
+java.lang.NumberFormatException: Character a is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:211)
+	at app.Main.main(Main.java:58)
+2025-11-11 00:36:40,806 TRACE [main] app.Main [Main.java:225] Završeno generiranje proizvoda.
+2025-11-11 00:36:40,806 TRACE [main] app.Main [Main.java:245] Započeto generiranje narudžbi.
+2025-11-11 00:36:40,807 DEBUG [main] app.Main [Main.java:249] Generiranje 0. narudžbe
+2025-11-11 00:36:45,998 WARN [main] app.Main [Main.java:507] Neuspješna prijava korisnika: pero
+2025-11-11 00:36:47,598 WARN [main] app.Main [Main.java:507] Neuspješna prijava korisnika: pero
+2025-11-11 00:36:48,678 INFO [main] app.Main [Main.java:496] Korisnik pero uspješno prijavljen.
+2025-11-11 00:37:00,987 DEBUG [main] app.Main [Main.java:249] Generiranje 1. narudžbe
+2025-11-11 00:37:04,246 INFO [main] app.Main [Main.java:496] Korisnik pero uspješno prijavljen.
+2025-11-11 00:37:12,158 TRACE [main] app.Main [Main.java:457] Završeno generiranje narudžbi.

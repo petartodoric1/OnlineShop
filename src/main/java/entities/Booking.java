@@ -1,6 +1,7 @@
 package entities;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Predstavlja narudžbu korisnika koja sadrži artikle, količine i status plaćanja.
@@ -9,8 +10,8 @@ import java.math.BigDecimal;
 public final class Booking implements Payed {
 
     private User user;
-    private Item[] items;
-    private Integer[] quantity;
+    private List<Item> items;
+    private List<Integer> quantity;
     private Integer bookingId;
     private boolean isPayed=false;
 
@@ -21,7 +22,7 @@ public final class Booking implements Payed {
      * @param quantity
      * @param bookingId
      */
-    public Booking(User user, Item[] items, Integer[] quantity, Integer bookingId) {
+    public Booking(User user, List<Item> items, List<Integer> quantity, Integer bookingId) {
         this.user = user;
         this.items = items;
         this.quantity = quantity;
@@ -36,19 +37,19 @@ public final class Booking implements Payed {
         this.user = user;
     }
 
-    public Item[] getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(Item[] items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
-    public Integer[] getQuantity() {
+    public List<Integer> getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer[] quantity) {
+    public void setQuantity(List<Integer> quantity) {
         this.quantity = quantity;
     }
 
@@ -60,15 +61,23 @@ public final class Booking implements Payed {
         this.bookingId = bookingId;
     }
 
+
+    /**
+     * Računa ukupnu cijenu narudžbe
+     * @return Vraća sveukupnu cijenu te narudžbe
+     */
+
     public BigDecimal getTotalPrice() {
         BigDecimal sum = BigDecimal.ZERO;
 
-        for(Integer i=0; i<items.length; i++) {
+        for(Integer i=0; i<items.size(); i++) {
 
-            if(items[i]== null || quantity[i] == null) {
+            if(items.isEmpty() || quantity.isEmpty()) {
                 break;
             }
-            sum = sum.add(items[i].getPrice().multiply(new BigDecimal(quantity[i])));
+            Item item = items.get(i);
+            Integer qty = quantity.get(i);
+            sum = sum.add(item.getPrice().multiply(BigDecimal.valueOf(qty)));
         }
         return sum;
     }

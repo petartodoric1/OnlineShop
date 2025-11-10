@@ -16,8 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -47,18 +46,19 @@ public class Main {
         log.info("Pokretanje aplikacije ...");
         Scanner sc= new Scanner(System.in);
 
-        User[] users;
-        Item[] items;
-        Booking[] bookings;
-        Record[] records= new  Record[NUMBER_OF_ALL];
+        List<User> users;
+        List<Item> items;
+        List<Booking> bookings;
+        Set<Record> records=new HashSet<>();
+        Map<String,List<Booking>> userBookings=new HashMap<>();
+
 
 
         users=generateUsers(sc);
         items=generateItems(sc);
 
-
-        bookings=generateBookings(sc,users,items,records);
-        pretrazivanje(sc,bookings,items,records);
+        bookings=generateBookings(sc,users,items,records,userBookings);
+        pretrazivanje(sc,bookings,items,records,userBookings);
 
     }
 
@@ -69,12 +69,12 @@ public class Main {
      * @param sc Scanner objekt za unos podataka s konzole
      * @return polje {@link User} objekata
      */
-    private static User[] generateUsers(Scanner sc) {
+    private static List<User> generateUsers(Scanner sc) {
         log.trace("Započeto generiranje korisnika.");
-        User[] users=new User[NUMBER_OF_ALL];
+        List<User> users=new ArrayList<>();
         System.out.println("Generirajte korisnike!");
 
-        for(Integer i=0;i< users.length;i++){
+        for(Integer i=0;i< NUMBER_OF_ALL;i++){
             System.out.println("Unesite "+(i+1)+". korisnika:");
             System.out.println("Username:");
             String username=sc.nextLine();
@@ -88,12 +88,16 @@ public class Main {
             System.out.println("User id je dodjeljen automatski -> Vaš id je: "+(i+1)+"\n");
             Integer userId=i+1;
 
-            users[i]= new User.Builder(username,password).userId(userId).build();
+            users.add( new User.Builder(username,password)
+                    .userId(userId).
+                    build());
             log.info("Uspješno generiran korisnik: {}",username);
         }
         log.trace("Završeno generiranje korisnika.");
         return users;
     }
+
+
     /**
      * Generira proizvode (majice, hlače i cipele).
      * <p>Metoda provjerava ispravnost cijene i veličine te u slučaju pogreške traži ponovni unos.</p>
@@ -103,9 +107,9 @@ public class Main {
      * @throws InvalidInputException ako korisnik unese krivu vrijednost za traženi atribut objekta
      * @return polje {@link Item} objekata
      */
-    private static Item[] generateItems(Scanner sc)  {
+    private static List<Item>  generateItems(Scanner sc)  {
         log.trace("Započeto generiranje proizvoda.");
-        Item[] items=new Item[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
+        List<Item> items=new ArrayList<>();
 
         Integer itemId=0;
         Integer itemIndex=0;
@@ -139,7 +143,7 @@ public class Main {
             String velicina=sc.nextLine();
             itemId++;
 
-            items[itemIndex]=new Majica(ime,price,itemId,boja,velicina);
+            items.add(new Majica(ime,price,itemId,boja,velicina));
             itemIndex++;
         }
 
@@ -173,7 +177,7 @@ public class Main {
             String vrsta=sc.nextLine();
             itemId++;
 
-            items[itemIndex]=new Hlace(ime,price,itemId,boja,velicina,vrsta);
+            items.add(new Hlace(ime,price,itemId,boja,velicina,vrsta));
             itemIndex++;
         }
 
@@ -215,7 +219,7 @@ public class Main {
 
             itemId++;
 
-            items[itemIndex]=new Cipele(ime,price,itemId,velicina);
+            items.add(new Cipele(ime,price,itemId,velicina));
             itemIndex++;
         }
         log.trace("Završeno generiranje proizvoda.");
@@ -237,11 +241,11 @@ public class Main {
      * @return polje {@link Booking} objekata
      */
 
-    private static Booking[] generateBookings(Scanner sc,User[] users,Item[] items,Record[] records)  {
+    private static List<Booking> generateBookings(Scanner sc,List<User> users,List<Item> items,Set<Record> records, Map<String,List<Booking>> userBookings)  {
         log.trace("Započeto generiranje narudžbi.");
-        Booking[] bookings=new Booking[NUMBER_OF_ALL];
+        List<Booking> bookings= new ArrayList<>();
         Integer recordId=0;
-        for(Integer bookingIndex=0;bookingIndex< bookings.length;bookingIndex++) {
+        for(Integer bookingIndex=0;bookingIndex< NUMBER_OF_ALL;bookingIndex++) {
             log.debug("Generiranje {}. narudžbe", bookingIndex);
 
             String confirmation=null;
@@ -251,7 +255,7 @@ public class Main {
                 confirmation = sc.nextLine();
 
                 try{
-                    if(!confirmation.equalsIgnoreCase("Da")&&!confirmation.equalsIgnoreCase("Ne")) {
+                    if(!confirmation.equalsIgnoreCase("Da") && !confirmation.equalsIgnoreCase("Ne")) {
                         throw new InvalidDaNeException("Unos mora biti Da ili Ne!");
                     }
                     break;
@@ -268,8 +272,8 @@ public class Main {
 
                 Integer ordinal = 1;
                 Integer orderedIndex = 0;
-                Item[] orderedItems = new Item[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
-                Integer[] orderedQuantity = new Integer[NUMBER_OF_ALL*NUMBER_OF_ITEMS];
+                List<Item> orderedItems = new ArrayList<>();
+                List<Integer> orderedQuantity = new ArrayList<>();
                 String answer=null;
 
                 User selectedUser=null;
@@ -300,7 +304,7 @@ public class Main {
                         choice = sc.nextInt();
                         try {
 
-                            if (choice > items.length || choice < 1) {
+                            if (choice > items.size() || choice < 1) {
                                 throw new InvalidOdabirException("Odabrali ste nepostojeći proizvod!");
                             }
                             break;
@@ -315,7 +319,7 @@ public class Main {
                         }
                     }
 
-                        Item selectedItem = items[choice - 1];
+                        Item selectedItem= items.get(choice - 1);
                         if (selectedItem.isSold()) {
                             System.out.println("Ovaj proizvod je rasprodan!");
                             sc.nextLine();
@@ -338,7 +342,7 @@ public class Main {
                         }
 
                         selectedItem.markAsSold();
-                        orderedItems[orderedIndex] = selectedItem;
+                        orderedItems.add(selectedItem);
 
 
                     Integer quantity=null;
@@ -355,7 +359,7 @@ public class Main {
 
                     }
 
-                    orderedQuantity[orderedIndex] = quantity;
+                    orderedQuantity.add(quantity);
                     orderedIndex++;
                     sc.nextLine();
                     while(true) {
@@ -376,9 +380,20 @@ public class Main {
                 } while ("Da".equalsIgnoreCase(answer));
 
                 //Provjerava jel korisnik nešto naručio, odnosno, jel odustao od kupnje ako je prva stvar bila rasprodana
-                if(orderedItems[0]!= null){
-                bookings[bookingIndex] = new Booking(selectedUser, orderedItems, orderedQuantity,bookingIndex);
-                System.out.println("Ukupna cijena vaše narudžbe je: "+bookings[bookingIndex].getTotalPrice()+" EUR\n");
+                if(!orderedItems.isEmpty()) {
+                bookings.add( new Booking(selectedUser, orderedItems, orderedQuantity,bookingIndex));
+
+                String username=selectedUser.getUsername();
+
+                    if(!userBookings.containsKey(username)) {
+                        userBookings.put(username,new ArrayList<>());
+                    }
+                    userBookings.get(username).add(bookings.get(bookingIndex));
+
+                System.out.println("Ukupna cijena vaše narudžbe je: "+bookings.get(bookingIndex).getTotalPrice()+" EUR\n");
+
+
+
                 }
 
                 else{
@@ -420,12 +435,12 @@ public class Main {
 
                 if (odgovor.equals(1)) {
                     System.out.println("Vaša narudžba je plaćena i poslana na vašu adresu!");
-                    bookings[bookingIndex].markAsPayed();
+                    bookings.get(bookingIndex).markAsPayed();
 
-                    records[recordId]=new Record(selectedUser.getUsername(),
-                                                 bookings[bookingIndex].getTotalPrice(),
-                                                 bookings[bookingIndex].getBookingId(),
-                                                 LocalDateTime.now());
+                    records.add(new Record(selectedUser.getUsername(),
+                            bookings.get(bookingIndex).getTotalPrice(),
+                            bookings.get(bookingIndex).getBookingId(),
+                                                 LocalDateTime.now()));
                     recordId++;
 
                 }
@@ -453,7 +468,7 @@ public class Main {
      * @throws LoginFailedException ako korisnik tri puta unese pogrešnu lozinku
      */
 
-    private static User login(Scanner sc, User[] users) throws LoginFailedException {
+    private static User login(Scanner sc, List<User> users) throws LoginFailedException {
 
         System.out.println("Unesite vaš username:");
 
@@ -476,6 +491,7 @@ public class Main {
         while(true) {
             System.out.println("Unesite password:");
             String password = sc.nextLine();
+
             if (password.equals(selectedUser.getPassword())) {
                 log.info("Korisnik {} uspješno prijavljen.", selectedUser.getUsername());
                 System.out.println("Uspiješna prijava! Nastavite s kupnjom!");
@@ -507,7 +523,7 @@ public class Main {
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
      */
-    private static void pretrazivanje(Scanner sc,Booking[] bookings, Item[] items,Record[] records) {
+    private static void pretrazivanje(Scanner sc,List<Booking> bookings, List<Item> items,Set<Record> records, Map<String, List<Booking>> userBookings) {
 
         String confirmation=null;
         while(true) {
@@ -533,14 +549,15 @@ public class Main {
                     System.out.println("Pretraži:");
                     System.out.println("(1) Proizvode");
                     System.out.println("(2) Narudžbe");
+                    System.out.println("(3) Korisnika");
                     System.out.println("Odabir:");
 
                     try {
                         odabir = sc.nextInt();
                         sc.nextLine();
 
-                        if (odabir != 1 && odabir != 2) {
-                            throw new InvalidOdabirException("Neispravan unos! Unesite 1 ili 2.");
+                        if (odabir != 1 && odabir != 2 && odabir != 3) {
+                            throw new InvalidOdabirException("Neispravan unos! Unesite 1, 2 ili 3.");
                         }
 
                         break;
@@ -562,6 +579,9 @@ public class Main {
 
                 if (odabir.equals(2)) {
                     odabirNarudzbe(sc, bookings, records);
+                }
+                if(odabir.equals(3)) {
+                    pretrazivanjeKorisnika(sc,userBookings);
                 }
 
 
@@ -595,13 +615,13 @@ public class Main {
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
      */
-    private static void odabirProizvoda(Scanner sc,Item[] items) {
-        Item cheapestItem=items[0];
-        Item expensiveItem=items[0];
+    private static void odabirProizvoda(Scanner sc,List<Item> items) {
+        Item cheapestItem=items.get(0);
+        Item expensiveItem=items.get(0);
 
-        for(Integer i=1;i< items.length;i++){
+        for(Integer i=1;i< items.size();i++){
 
-            Item currentItem=items[i];
+            Item currentItem=items.get(i);
             BigDecimal currentPrice=currentItem.getPrice();
 
             if(currentPrice.compareTo(cheapestItem.getPrice())<0){
@@ -675,27 +695,27 @@ public class Main {
      * Omogućuje pregled narudžbi prema cijeni (najskuplja, najjeftinija) ili pregled svih plaćenih narudžbi.
      *
      * @param sc Scanner objekt za unos
-     * @param bookings polje svih narudžbi
-     * @param records polje svih zapisa o plaćenim narudžbama
+     * @param bookings lista svih narudžbi
+     * @param records set zbirka svih zapisa o plaćenim narudžbama
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
      */
-    private static void odabirNarudzbe(Scanner sc,Booking[] bookings,Record[] records) {
+    private static void odabirNarudzbe(Scanner sc,List<Booking> bookings,Set<Record> records) {
 
-        Booking cheapestBooking=bookings[0];
-        Booking expensiveBooking=bookings[0];
+        Booking cheapestBooking=bookings.get(0);
+        Booking expensiveBooking=bookings.get(0);
 
-        for(Integer i=1;i< bookings.length;i++){
+        for(Booking booking:bookings){
 
-            Booking currentBooking=bookings[i];
-            BigDecimal currentPrice=currentBooking.getTotalPrice();
+
+            BigDecimal currentPrice=booking.getTotalPrice();
 
             if(currentPrice.compareTo(cheapestBooking.getTotalPrice())<0){
-                cheapestBooking=currentBooking;
+                cheapestBooking=booking;
             }
 
             if(currentPrice.compareTo(expensiveBooking.getTotalPrice())>0){
-                expensiveBooking=currentBooking;
+                expensiveBooking=booking;
             }
         }
 
@@ -758,14 +778,12 @@ public class Main {
 
             System.out.println("Plaćene narudžbe su:");
             boolean found=false;
-            for(Integer i=0;i<records.length;i++){
+            for(Record record:records){
 
-                if(records[i]==null) continue;
-
-                    System.out.println("Username: " + records[i].username() +
-                            ", Cijena narudžbe: " + records[i].price() + " EUR" +
-                            ", BookingId: " + records[i].bookingId() +
-                            ", Vrijeme: " + records[i].time());
+                    System.out.println("Username: " + record.username() +
+                            ", Cijena narudžbe: " + record.price() + " EUR" +
+                            ", BookingId: " + record.bookingId() +
+                            ", Vrijeme: " + record.time());
                     found=true;
             }
 
@@ -774,6 +792,37 @@ public class Main {
             }
 
         }
+    }
+
+
+    /**
+     *
+     * @param sc Scanner objekt za unos
+     * @param userBookings mapa koja sadrži povezuje korisnikov username sa njegovim narudžbama
+     */
+    private static void pretrazivanjeKorisnika(Scanner sc, Map<String,List<Booking>> userBookings) {
+
+        System.out.println("Unesite korisnikov username:");
+
+            String username = sc.nextLine();
+
+
+
+        List<Booking> korisnikoveNarudzbe = userBookings.get(username);
+
+        if(korisnikoveNarudzbe == null || korisnikoveNarudzbe.isEmpty()){
+            System.out.println("Korisnik "+username+" nema narudžbi!");
+            return;
+        }
+        System.out.println("Narudžbe korisnika "+username+" :");
+        for (Booking b : korisnikoveNarudzbe) {
+            System.out.println("Id narudžbe: " + b.getBookingId() +
+                    " | Ukupna cijena: " + b.getTotalPrice() + " EUR " +
+                    "| Status: " + (b.isPayed() ? "Plaćeno" : "Rezervirano"));
+        }
+
+
+
     }
 
 }
