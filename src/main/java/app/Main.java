@@ -796,7 +796,7 @@ public class Main {
 
 
     /**
-     *
+     * Omogućuje pretraživanje korisnika i ispis svih njegovih narudžbi
      * @param sc Scanner objekt za unos
      * @param userBookings mapa koja sadrži povezuje korisnikov username sa njegovim narudžbama
      */
