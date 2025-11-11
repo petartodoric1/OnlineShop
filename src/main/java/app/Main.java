@@ -603,7 +603,7 @@ public class Main {
     }
 
     /**
-     * Prikazuje najskuplji ili najjeftiniji proizvod.
+     * Prikazuje najskuplji ,najjeftiniji proizvod i nudi opciju sortiranja proizvoda po cijeni.
      * <p>Uključuje i informaciju o dostupnosti proizvoda.</p>
      *
      * @param sc Scanner objekt za unos
@@ -629,22 +629,20 @@ public class Main {
             }
         }
 
-
-
-
         Integer odabir = null;
         while (true) {
             System.out.println("Koji proizvod želite odabrati:");
             System.out.println("(1) Najskuplji proizvod");
             System.out.println("(2) Najjeftiniji proizvod");
+            System.out.println("(3) Sortiraj proizvode");
             System.out.println("Vaš odabir: ");
 
             try {
                 odabir = sc.nextInt();
                 sc.nextLine();
 
-                if (odabir != 1 && odabir != 2) {
-                    throw new InvalidOdabirException("Neispravan unos! Unesite 1 ili 2.");
+                if (odabir != 1 && odabir != 2 && odabir != 3) {
+                    throw new InvalidOdabirException("Neispravan unos! Unesite 1,2 ili 3.");
                 }
 
                 break;
@@ -684,6 +682,47 @@ public class Main {
 
         }
 
+        if(odabir.equals(3)){
+
+            Integer choice=null;
+            while (true) {
+
+                System.out.println("Sortiraj po:");
+                System.out.println("(1) Cijeni -> UZLAZNO");
+                System.out.println("(2) Cijeni -> SILAZNO");
+
+                try {
+                    choice = sc.nextInt();
+                    sc.nextLine();
+
+                    if (choice != 1 && choice != 2) {
+                        throw new InvalidOdabirException("Neispravan unos! Unesite 1 ili 2");
+                    }
+                    break;
+
+                } catch (InvalidOdabirException e) {
+                    System.out.println("Greška pri unosu -> " + e.getMessage());
+                    log.error("Neispravan odabir", e);
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Greška: Morate unijeti broj!");
+                    log.error("Neispravan odabir", e);
+                    sc.nextLine();
+                }
+            }
+
+            switch (choice) {
+                case 1 -> items.sort(Comparator.comparing(Item::getPrice));
+                case 2 -> items.sort(Comparator.comparing(Item::getPrice).reversed());
+                default -> System.out.println("Neispravan unos!");
+            }
+
+            System.out.println("Sortirani proizvodi:");
+            for(Item i: items){
+                System.out.println(i.getName()+" | "+i.getCategory()+" | "+i.getPrice()+" EUR");
+            }
+
+        }
 
     }
 
