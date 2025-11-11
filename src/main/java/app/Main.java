@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -603,7 +604,7 @@ public class Main {
     }
 
     /**
-     * Prikazuje najskuplji ,najjeftiniji proizvod i nudi opciju sortiranja proizvoda po cijeni.
+     * Prikazuje najskuplji, najjeftiniji proizvod, nudi opciju sortiranja proizvoda po cijeni i pretraživanje proizvoda po kategoriji.
      * <p>Uključuje i informaciju o dostupnosti proizvoda.</p>
      *
      * @param sc Scanner objekt za unos
@@ -612,22 +613,12 @@ public class Main {
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
      */
     private static void odabirProizvoda(Scanner sc,List<Item> items) {
-        Item cheapestItem=items.get(0);
-        Item expensiveItem=items.get(0);
 
-        for(Integer i=1;i< items.size();i++){
 
-            Item currentItem=items.get(i);
-            BigDecimal currentPrice=currentItem.getPrice();
+        items.sort(Comparator.comparing(Item::getPrice));
+        Item cheapestItem=items.getFirst();
+        Item expensiveItem=items.getLast();
 
-            if(currentPrice.compareTo(cheapestItem.getPrice())<0){
-                cheapestItem=currentItem;
-            }
-
-            if(currentPrice.compareTo(expensiveItem.getPrice())>0){
-                expensiveItem=currentItem;
-            }
-        }
 
         Integer odabir = null;
         while (true) {
@@ -635,14 +626,15 @@ public class Main {
             System.out.println("(1) Najskuplji proizvod");
             System.out.println("(2) Najjeftiniji proizvod");
             System.out.println("(3) Sortiraj proizvode");
+            System.out.println("(4) Pretraživanje po kategoriji");
             System.out.println("Vaš odabir: ");
 
             try {
                 odabir = sc.nextInt();
                 sc.nextLine();
 
-                if (odabir != 1 && odabir != 2 && odabir != 3) {
-                    throw new InvalidOdabirException("Neispravan unos! Unesite 1,2 ili 3.");
+                if (odabir != 1 && odabir != 2 && odabir != 3 &&  odabir != 4) {
+                    throw new InvalidOdabirException("Neispravan unos! Unesite 1,2,3 ili 4.");
                 }
 
                 break;
@@ -711,10 +703,8 @@ public class Main {
                 }
             }
 
-            switch (choice) {
-                case 1 -> items.sort(Comparator.comparing(Item::getPrice));
-                case 2 -> items.sort(Comparator.comparing(Item::getPrice).reversed());
-                default -> System.out.println("Neispravan unos!");
+            if(choice==2) {
+                items.sort(Comparator.comparing(Item::getPrice).reversed());
             }
 
             System.out.println("Sortirani proizvodi:");
@@ -722,6 +712,10 @@ public class Main {
                 System.out.println(i.getName()+" | "+i.getCategory()+" | "+i.getPrice()+" EUR");
             }
 
+        }
+
+        if(odabir.equals(4)){
+            pretrazivanjePoKategoriji(sc,items);
         }
 
     }
@@ -824,6 +818,7 @@ public class Main {
 
     /**
      * Omogućuje pretraživanje korisnika i ispis svih njegovih narudžbi
+     *
      * @param sc Scanner objekt za unos
      * @param userBookings mapa koja sadrži povezuje korisnikov username sa njegovim narudžbama
      */
@@ -849,6 +844,66 @@ public class Main {
         }
 
 
+
+    }
+
+    /**
+     * Grupira proizvode po kategoriji i omogućava korisniku prikazivanje pojedinačne kategorije proizvoda
+     *
+     * @param sc Scanner objekt za unos
+     * @param items lista svih proizvoda
+     * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
+     * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
+     */
+
+    private static void pretrazivanjePoKategoriji(Scanner sc,List<Item> items){
+
+        Map<String, List<Item>> poKategoriji = items.stream()
+                .collect(Collectors.groupingBy(Item::getCategory));
+
+
+        Integer odabir;
+        while (true) {
+            System.out.println("Odaberite kategoriju:");
+            System.out.println("(1) Majice");
+            System.out.println("(2) Hlače");
+            System.out.println("(3) Cipele");
+            System.out.println("Vaš odabir: ");
+
+            try {
+                odabir = sc.nextInt();
+                sc.nextLine();
+
+                if (odabir != 1 && odabir != 2 && odabir != 3) {
+                    throw new InvalidOdabirException("Neispravan unos! Unesite 1,2 ili 3.");
+                }
+
+                break;
+            } catch (InvalidOdabirException e) {
+                System.out.println("Greška pri unosu -> " + e.getMessage());
+                log.error("Neispravan odabir", e);
+
+            } catch (InputMismatchException e) {
+                System.out.println("Greška: Morate unijeti broj!");
+                log.error("Neispravan odabir", e);
+                sc.nextLine();
+            }
+        }
+
+        String kategorija = switch (odabir) {
+            case 1 -> "Majica";
+            case 2 -> "Hlače";
+            case 3 -> "Cipele";
+            default -> null;
+        };
+
+        if (kategorija != null && poKategoriji.containsKey(kategorija)) {
+            System.out.println("Proizvodi u kategoriji: " + kategorija+ " su:");
+            poKategoriji.get(kategorija).forEach(i ->
+                    System.out.println(i.getName() + " | " + i.getPrice() + " EUR"));
+        } else {
+            System.out.println("Nema proizvoda u odabranoj kategoriji!");
+        }
 
     }
 
