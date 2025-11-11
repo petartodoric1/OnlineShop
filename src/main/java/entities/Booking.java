@@ -7,13 +7,14 @@ import java.util.List;
  * Predstavlja narudžbu korisnika koja sadrži artikle, količine i status plaćanja.
  * Svaka narudžba ima jedinstveni ID te može biti označena kao plaćena.
  */
-public final class Booking implements Payed {
+public class Booking {
 
     private User user;
     private List<Item> items;
     private List<Integer> quantity;
     private Integer bookingId;
     private boolean isPayed=false;
+    private BookingStatus status;
 
     /**
      *Kreira novu narudžbu sa predanim parametrima
@@ -82,13 +83,12 @@ public final class Booking implements Payed {
         return sum;
     }
 
-    @Override
-    public boolean isPayed(){
-        return isPayed;
+    public BookingStatus getStatus() {
+        return status;
     }
 
-    @Override
-    public void markAsPayed() {
-        this.isPayed = true;
+    public void setStatus(BookingStatus status) {
+        this.status = status;
     }
+
 }

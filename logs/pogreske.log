@@ -196,3 +196,42 @@ java.lang.NumberFormatException: Character a is neither a decimal digit number, 
 2025-11-11 00:37:00,987 DEBUG [main] app.Main [Main.java:249] Generiranje 1. narudžbe
 2025-11-11 00:37:04,246 INFO [main] app.Main [Main.java:496] Korisnik pero uspješno prijavljen.
 2025-11-11 00:37:12,158 TRACE [main] app.Main [Main.java:457] Završeno generiranje narudžbi.
+2025-11-11 14:56:01,485 INFO [main] app.Main [Main.java:41] Pokretanje aplikacije ...
+2025-11-11 14:56:01,511 TRACE [main] app.Main [Main.java:68] Započeto generiranje korisnika.
+2025-11-11 14:56:06,113 INFO [main] app.Main [Main.java:89] Uspješno generiran korisnik: pero
+2025-11-11 14:56:11,783 INFO [main] app.Main [Main.java:89] Uspješno generiran korisnik: alex
+2025-11-11 14:56:11,783 TRACE [main] app.Main [Main.java:91] Završeno generiranje korisnika.
+2025-11-11 14:56:11,783 TRACE [main] app.Main [Main.java:106] Započeto generiranje proizvoda.
+2025-11-11 14:56:21,444 ERROR [main] app.Main [Main.java:163] Neispravan unos cijene
+java.lang.NumberFormatException: null
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:723)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:158)
+	at app.Main.main(Main.java:53)
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
+	at java.base/java.math.BigDecimal.parseExp(BigDecimal.java:741)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:625)
+	... 4 common frames omitted
+2025-11-11 14:56:22,413 ERROR [main] app.Main [Main.java:163] Neispravan unos cijene
+java.lang.NumberFormatException: Character y is neither a decimal digit number, decimal point, nor "e" notation exponential mark.
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:628)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:517)
+	at java.base/java.math.BigDecimal.<init>(BigDecimal.java:923)
+	at app.Main.generateItems(Main.java:158)
+	at app.Main.main(Main.java:53)
+2025-11-11 14:56:34,081 TRACE [main] app.Main [Main.java:220] Završeno generiranje proizvoda.
+2025-11-11 14:56:34,081 TRACE [main] app.Main [Main.java:240] Započeto generiranje narudžbi.
+2025-11-11 14:56:34,081 DEBUG [main] app.Main [Main.java:244] Generiranje 0. narudžbe
+2025-11-11 14:56:37,578 INFO [main] app.Main [Main.java:492] Korisnik pero uspješno prijavljen.
+2025-11-11 14:56:42,894 DEBUG [main] app.Main [Main.java:244] Generiranje 1. narudžbe
+2025-11-11 14:56:50,065 INFO [main] app.Main [Main.java:492] Korisnik alex uspješno prijavljen.
+2025-11-11 14:56:56,239 TRACE [main] app.Main [Main.java:453] Završeno generiranje narudžbi.
+2025-11-11 14:57:31,252 ERROR [main] app.Main [Main.java:595] Pogrešan unos 'Da/Ne' od korisnika: ad
+2025-11-11 14:57:35,019 ERROR [main] app.Main [Main.java:562] Pogrešan odabir kod pretraživanja proizvoda ili narudžbi
+2025-11-11 14:57:36,026 ERROR [main] app.Main [Main.java:566] Unesen string umjesto broja kod odabira pretraživanja proizvoda ili narudžbi 
+2025-11-11 14:57:47,066 ERROR [main] app.Main [Main.java:595] Pogrešan unos 'Da/Ne' od korisnika: kdk
+2025-11-11 14:57:48,402 ERROR [main] app.Main [Main.java:595] Pogrešan unos 'Da/Ne' od korisnika: dkdk
+2025-11-11 14:57:49,072 ERROR [main] app.Main [Main.java:595] Pogrešan unos 'Da/Ne' od korisnika: 123
+2025-11-11 14:57:52,048 ERROR [main] app.Main [Main.java:566] Unesen string umjesto broja kod odabira pretraživanja proizvoda ili narudžbi 
+2025-11-11 14:57:53,289 ERROR [main] app.Main [Main.java:566] Unesen string umjesto broja kod odabira pretraživanja proizvoda ili narudžbi 

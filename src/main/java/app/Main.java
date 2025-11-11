@@ -1,11 +1,6 @@
 package app;
 
-import entities.Booking;
-import entities.User;
-import entities.Item;
-import entities.Majica;
-import entities.Hlace;
-import entities.Cipele;
+import entities.*;
 import entities.Record;
 import exceptions.InvalidDaNeException;
 import exceptions.InvalidInputException;
@@ -435,7 +430,7 @@ public class Main {
 
                 if (odgovor.equals(1)) {
                     System.out.println("Vaša narudžba je plaćena i poslana na vašu adresu!");
-                    bookings.get(bookingIndex).markAsPayed();
+                    bookings.get(bookingIndex).setStatus(BookingStatus.PLAĆENO);
 
                     records.add(new Record(selectedUser.getUsername(),
                             bookings.get(bookingIndex).getTotalPrice(),
@@ -446,6 +441,7 @@ public class Main {
                 }
                 if(odgovor.equals(2)) {
                     System.out.println("Vaša narudžba vas čeka u našoj poslovnici!");
+                    bookings.get(bookingIndex).setStatus(BookingStatus.REZERVIRANO);
                 }
 
             }
@@ -753,12 +749,8 @@ public class Main {
             System.out.println("Naručitelj: "+expensiveBooking.getUser().getUsername());
             System.out.println("Ukupna cijena je: "+expensiveBooking.getTotalPrice()+" EUR");
             System.out.print("Status narudžbe: ");
-            if(expensiveBooking.isPayed()){
-                System.out.println("Plaćeno");
-            }
-            else {
-                System.out.println("Rezervirano");
-            }
+            System.out.println(expensiveBooking.getStatus());
+
         }
 
         if(odabir.equals(2)){
@@ -766,12 +758,8 @@ public class Main {
             System.out.println("Naručitelj: "+cheapestBooking.getUser().getUsername());
             System.out.println("Ukupna cijena je: "+cheapestBooking.getTotalPrice()+" EUR");
             System.out.print("Status narudžbe: ");
-            if(cheapestBooking.isPayed()){
-                System.out.println("Plaćeno");
-            }
-            else {
-                System.out.println("Rezervirano");
-            }
+            System.out.println(cheapestBooking.getStatus());
+
         }
 
         if (odabir.equals(3)){
@@ -818,7 +806,7 @@ public class Main {
         for (Booking b : korisnikoveNarudzbe) {
             System.out.println("Id narudžbe: " + b.getBookingId() +
                     " | Ukupna cijena: " + b.getTotalPrice() + " EUR " +
-                    "| Status: " + (b.isPayed() ? "Plaćeno" : "Rezervirano"));
+                    "| Status: " + (b.getStatus()));
         }
 
 
