@@ -5,7 +5,6 @@ import entities.Record;
 import exceptions.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.*;
@@ -955,7 +954,6 @@ public class Main {
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
      */
-
     private static void pretrazivanjePoKategoriji(Scanner sc,List<Item> items){
 
         Map<String, List<Item>> poKategoriji = items.stream()
