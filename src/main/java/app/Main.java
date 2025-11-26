@@ -595,8 +595,8 @@ public class Main {
     }
 
     /**
-     * Omogućuje pretraživanje proizvoda i narudžbi.
-     * <p>Korisnik može odabrati između pregleda proizvoda ili narudžbi.</p>
+     * Omogućuje pretraživanje proizvoda, narudžbi i korisnika.
+     * <p>Korisnik može odabrati između pregleda proizvoda, narudžbi i pretraživanja korisnika.</p>
      *
      * @param sc Scanner objekt za unos
      * @param bookings lista svih narudžbi
@@ -691,7 +691,8 @@ public class Main {
     }
 
     /**
-     * Prikazuje najskuplji, najjeftiniji proizvod, nudi opciju sortiranja proizvoda po cijeni i pretraživanje proizvoda po kategoriji.
+     * Prikazuje najskuplji, najjeftiniji proizvod, nudi opciju sortiranja proizvoda po cijeni, pretraživanje proizvoda po
+     * kategoriji, ispis prodanih i dostupnih proizvoda te ispis arhive prodanih proizvoda.
      * <p>Uključuje i informaciju o dostupnosti proizvoda.</p>
      *
      * @param sc Scanner objekt za unos
@@ -924,7 +925,7 @@ public class Main {
      * Omogućuje pretraživanje korisnika i ispis svih njegovih narudžbi
      *
      * @param sc Scanner objekt za unos
-     * @param userBookings mapa koja sadrži povezuje korisnikov username sa njegovim narudžbama
+     * @param userBookings mapa koja povezuje korisnikov username sa njegovim narudžbama
      */
     private static void pretrazivanjeKorisnika(Scanner sc, Map<String,List<Booking>> userBookings) {
 
