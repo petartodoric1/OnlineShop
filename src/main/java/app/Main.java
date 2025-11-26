@@ -318,15 +318,17 @@ public class Main {
      */
 
     private static List<Booking> generateBookings(Scanner sc,List<User> users,List<Item> items,Set<Record> records, Map<String,List<Booking>> userBookings, List<Object> arhivaProizvoda)  {
+
         log.trace("Započeto generiranje narudžbi.");
         List<Booking> bookings= new ArrayList<>();
-        Integer recordId=0;
+
         for(Integer bookingIndex=0;bookingIndex< NUMBER_OF_ALL;bookingIndex++) {
+
             log.debug("Generiranje {}. narudžbe", bookingIndex);
 
             String confirmation=null;
-
             while(true) {
+
                 System.out.println("Dobar dan, zelite li nešto kupiti? (Da/Ne):");
                 confirmation = sc.nextLine();
 
@@ -339,19 +341,14 @@ public class Main {
                     System.out.println("Greška pri unosu -> "+e.getMessage());
                     log.error("Pogrešan unos 'Da/Ne' od korisnika: {}", confirmation);
                 }
-
-
             }
 
 
             if (confirmation.equalsIgnoreCase("Da")) {
 
-                Integer ordinal = 1;
-                Integer orderedIndex = 0;
-                List<Item> orderedItems = new ArrayList<>();
-                List<Integer> orderedQuantity = new ArrayList<>();
                 String answer=null;
 
+                // login korisnika
                 User selectedUser=null;
                 try {
                     selectedUser = login(sc, users);
@@ -363,23 +360,30 @@ public class Main {
                     continue;
                 }
 
+                List<Item> orderedItems = new ArrayList<>();
+                List<Integer> orderedQuantity = new ArrayList<>();
+
                 do {
+                    //ispis proizvoda korisniku
+                    Integer ordinal = 1;
                     for (Item i : items) {
-                        if(i.isSold()){
+                        if (i.isSold()) {
                             System.out.print("(RASPRODANO) -> ");
                         }
-                        System.out.println("("+ordinal +")"+ "-> " + i.getName()+" ("+i.getCategory()+")"+ " - " + i.getPrice() + " EUR");
+                        System.out.println("(" + ordinal + ")" + "-> " + i.getName() + " (" + i.getCategory() + ")" + " - " + i.getPrice() + " EUR");
                         ordinal++;
                     }
-                    ordinal = 1;
 
+
+                    //korisnik bira proizvod
                     Integer choice=null;
                     while(true) {
 
                         System.out.println("Odaberite proizvod:");
                         choice = sc.nextInt();
-                        try {
 
+                        //provjera jel odabrao postojeci proizvod
+                        try {
                             if (choice > items.size() || choice < 1) {
                                 throw new InvalidOdabirException("Odabrali ste nepostojeći proizvod!");
                             }
@@ -395,7 +399,9 @@ public class Main {
                         }
                     }
 
-                        Item selectedItem= items.get(choice - 1);
+                    Item selectedItem= items.get(choice - 1);
+
+                        //provjera je li proizvod rasprodan
                         if (selectedItem.isSold()) {
                             System.out.println("Ovaj proizvod je rasprodan!");
                             sc.nextLine();
@@ -417,6 +423,7 @@ public class Main {
 
                         }
 
+                        //označavanje proizvoda kao prodan i dodavanje na popis naručenih stvari
                         selectedItem.markAsSold();
                         orderedItems.add(selectedItem);
 
@@ -434,10 +441,10 @@ public class Main {
                         }
 
                     }
-
                     orderedQuantity.add(quantity);
-                    orderedIndex++;
+
                     sc.nextLine();
+
                     while(true) {
                         System.out.println("Želite li još neki proizvod? (Da/Ne):");
                         answer = sc.nextLine();
@@ -459,25 +466,24 @@ public class Main {
                 if(!orderedItems.isEmpty()) {
                 bookings.add( new Booking(selectedUser, orderedItems, orderedQuantity,bookingIndex));
 
+                //povezivanje korisnika sa njegovom narudžbom
                 String username=selectedUser.getUsername();
-
+                //ako je ovo korisniku prva narudzba stvori novi listu i neka ključ bude njegov username
                     if(!userBookings.containsKey(username)) {
                         userBookings.put(username,new ArrayList<>());
                     }
                     userBookings.get(username).add(bookings.get(bookingIndex));
 
                 System.out.println("Ukupna cijena vaše narudžbe je: "+bookings.get(bookingIndex).getTotalPrice()+" EUR\n");
-
-
-
                 }
-
+                //ako je odustao od kupnje nakon odabira rasprodanog proizvoda ga pozdravljamo i smanjujemo bookingIndex jer korisnik nije ništa kupio
                 else{
                     System.out.println("Doviđenja i dođite nam opet!");
                     bookingIndex--;
                     continue;
                 }
 
+                //korisnik bira želi li platiti ili rezervirati narudžbu
                 Integer odgovor = null;
                 while (true) {
                     System.out.println("Želite li platiti ili rezervirati narudžbu:");
@@ -508,7 +514,7 @@ public class Main {
 
 
 
-
+                //ako je plaćena, stavljamo status Plaćeno, dodajemo te proizvode u arhivu i dodajemo tu narudžbu u zapis plaćenih narudžbi
                 if (odgovor.equals(1)) {
                     System.out.println("Vaša narudžba je plaćena i poslana na vašu adresu!");
                     bookings.get(bookingIndex).setStatus(BookingStatus.PLAĆENO);
@@ -519,7 +525,7 @@ public class Main {
                             bookings.get(bookingIndex).getTotalPrice(),
                             bookings.get(bookingIndex).getBookingId(),
                                                  LocalDateTime.now()));
-                    recordId++;
+
 
                 }
                 if(odgovor.equals(2)) {
@@ -898,6 +904,7 @@ public class Main {
 
             System.out.println("Plaćene narudžbe su:");
 
+            //koristim AtomicBoolean kao wrapper jer se u lambdi nemoze mijenjat vrijednost
             AtomicBoolean found= new AtomicBoolean(false);
             records.forEach(record->{
                 System.out.println("Username: " + record.username() +
