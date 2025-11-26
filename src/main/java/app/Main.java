@@ -1013,9 +1013,8 @@ public class Main {
     private static <T extends Item & Sold>void ispisProdanihProizvoda(List<T> items){
 
         items.stream().filter(T::isSold)
-                .forEach(i->{ System.out.println(
-                    i.getName()+" | "+i.getPrice()+" EUR | "+i.getCategory());
-                });
+                .forEach(i-> System.out.println(
+                    i.getName()+" | "+i.getPrice()+" EUR | "+i.getCategory()));
     }
 
     /**
@@ -1025,9 +1024,8 @@ public class Main {
     private static void ispisDostupnihProizvoda(List<? extends Item> items){
 
         items.stream().filter(i-> !i.isSold())
-                .forEach(i->{ System.out.println(
-                    i.getName()+" | "+i.getPrice()+" EUR | "+i.getCategory());
-                });
+                .forEach(i-> System.out.println(
+                    i.getName()+" | "+i.getPrice()+" EUR | "+i.getCategory()));
 
     }
 
