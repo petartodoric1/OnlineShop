@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Nike Dunk",
+    "price": 120,
+    "itemId": 1,
+    "size": "43"
+
+  },
+  {
+    "name": "Adidas Spezial",
+    "price": 110,
+    "itemId": 1,
+    "size": "42"
+
+  }, {
+  "name": "Cruyff",
+  "price": 200,
+  "itemId": 1,
+  "size": "42"
+
+}, {
+  "name": "Yeezy",
+  "price": 300,
+  "itemId": 1,
+  "size": "43"
+
+}, {
+  "name": "Golden Goose",
+  "price": 400,
+  "itemId": 1,
+  "size": "44"
+}
+]

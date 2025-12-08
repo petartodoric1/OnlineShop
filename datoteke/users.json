@@ -1,0 +1,37 @@
+[
+  {
+    "username": "pero",
+    "password": "123",
+    "email": "pero@gmail.com",
+    "userId": 1
+
+
+  },
+  {
+    "username": "marko",
+    "password": "123",
+    "email": "marko@gmail.com",
+    "userId": 2
+  },
+  {
+    "username": "ivan",
+    "password": "123",
+    "email": "ivan@gmail.com",
+    "userId": 3
+  },
+  {   "username": "luka",
+    "password": "123",
+    "email": "luka@gmail.com",
+    "userId": 4
+  },
+  {
+    "username": "heraklije",
+    "password": "123",
+    "email": "heraklije@gmail.com",
+    "userId": 5
+  }
+
+
+
+
+]

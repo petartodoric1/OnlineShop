@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Armani",
+    "price": 85.99,
+    "itemId": 1,
+    "color": "crna",
+    "size": "M"
+  },
+  {
+    "name": "Gucci",
+    "price": 124.99,
+    "itemId": 2,
+    "color": "bijela",
+    "size": "L"
+  },
+  {
+    "name": "Hugo Boss",
+    "price": 100,
+    "itemId": 3,
+    "color": "plava",
+    "size": "S"
+  },
+  {
+    "name": "Tommy Hilfiger",
+    "price": 64.99,
+    "itemId": 4,
+    "color": "crna",
+    "size": "L"
+  },
+  {
+    "name": "Stone Island",
+    "price": 250,
+    "itemId": 5,
+    "color": "siva",
+    "size": "XL"
+  }
+]

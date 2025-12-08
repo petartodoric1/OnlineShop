@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Levi's",
+    "price": 140,
+    "itemId": 1,
+    "color": "plava",
+    "size": "L",
+    "type": "Traperice"
+
+  },
+  {
+    "name": "Disel",
+    "price": 112.55,
+    "itemId": 2,
+    "color": "crna",
+    "size": "M",
+    "type": "Traperice"
+
+  },  {
+  "name": "Adidas Trenirka",
+  "price": 60,
+  "itemId": 3,
+  "color": "siva",
+  "size": "M",
+  "type": "Trenirka"
+
+}, {
+  "name": "Pepe's",
+  "price": 130,
+  "itemId": 4,
+  "color": "khaki",
+  "size": "L",
+  "type": "Hlače"
+
+}, {
+  "name": "Champions Trenirka",
+  "price": 75,
+  "itemId": 5,
+  "color": "siva",
+  "size": "L",
+  "type": "Trenirka"
+
+}
+]

@@ -1,0 +1,51 @@
+[
+    {
+        "bookingId": 0,
+        "items": [
+            {
+                "itemId": 1,
+                "name": "Armani",
+                "price": 85.99,
+                "sold": true,
+                "category": "Majica",
+                "color": "crna",
+                "size": "M"
+            }
+        ],
+        "quantity": [
+            1
+        ],
+        "status": "PLAĆENO",
+        "totalPrice": 85.99,
+        "user": {
+            "email": "pero@gmail.com",
+            "password": "123",
+            "userId": 1,
+            "username": "pero"
+        }
+    },
+    {
+        "bookingId": 1,
+        "items": [
+            {
+                "itemId": 4,
+                "name": "Tommy Hilfiger",
+                "price": 64.99,
+                "sold": true,
+                "category": "Majica",
+                "color": "crna",
+                "size": "L"
+            }
+        ],
+        "quantity": [
+            1
+        ],
+        "totalPrice": 64.99,
+        "user": {
+            "email": "ivan@gmail.com",
+            "password": "123",
+            "userId": 3,
+            "username": "ivan"
+        }
+    }
+]
