@@ -3,15 +3,21 @@ package app;
 import entities.*;
 import entities.Record;
 import exceptions.*;
+import jakarta.json.bind.JsonbConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
-
-
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.IOException;
 
 
 /**
@@ -29,7 +35,15 @@ public class Main {
 
     private static Logger log= LoggerFactory.getLogger(Main.class);
 
-    private static final Integer NUMBER_OF_ALL = 2 ;
+    private static final Integer NUMBER_OF_ALL = 2;
+
+    private static final String USERS_FILE  = "datoteke/users.json";
+    private static final String MAJICE_FILE = "datoteke/majice.json";
+    private static final String HLACE_FILE  = "datoteke/hlace.json";
+    private static final String CIPELE_FILE = "datoteke/cipele.json";
+    private static final String BOOKINGS_FILE = "datoteke/bookings.json";
+    private static final String RECORDS_FILE  = "datoteke/records.json";
+
 
     /**
      * Pokreće generiranje korisnika, artikala i narudžbi te omogućuje pretraživanje.
@@ -47,255 +61,142 @@ public class Main {
         Map<String,List<Booking>> userBookings=new HashMap<>();
         List<Object> arhivaProizvoda = new ArrayList<>();
 
-
-
-        users=generateUsers(sc);
+        users=loadUsers();
         items=generateItems(sc);
-
         bookings=generateBookings(sc,users,items,records,userBookings,arhivaProizvoda);
         pretrazivanje(sc,bookings,items,records,userBookings,arhivaProizvoda);
 
     }
 
     /**
-     * Generira korisnike prema unosu korisnika preko konzole i svakom korisniku dodjeljuje username i password.
-     * <p>Korisnicima se automatski dodjeljuje ID</p>
-     *
-     * @param sc Scanner objekt za unos podataka s konzole
-     * @throws InvalidNameException ako korisnik pokuša unijeti prazan Username ili je Username već zauzet
-     * @throws InvalidInputException ako korisnik pokuša postaviti prazan password
-     * @return polje {@link User} objekata
+     * Učitava korisnike iz datoteke users.json.
+     * @throws IOException ako metoda ima problema s učitavanjem datoteke (npr. datoteka ne postoji ili je krivi path do datoteke)
+     * @return listu {@link User} objekata
      */
-    private static List<User> generateUsers(Scanner sc) {
-        log.trace("Započeto generiranje korisnika.");
-        List<User> users=new ArrayList<>();
-        System.out.println("Generirajte korisnike!");
+    private static List<User> loadUsers(){
+        log.trace("Započeto učitavanje korisnika.");
 
-        for(Integer i=0;i< NUMBER_OF_ALL;i++){
-            System.out.println("Unesite "+(i+1)+". korisnika:");
+        try{
 
-            String username=null;
-            while(true) {
-                System.out.println("Username:");
-                try{
-                    username=sc.nextLine();
+            Jsonb jsonb= JsonbBuilder.create();
 
-                    if(username.isEmpty()){
-                        throw new InvalidNameException("Username ne smije biti prazan!");
-                    }
+            String json=Files.readString(Paths.get(USERS_FILE));
 
-                    final String usernameCopy=username;
-                    boolean exist=users.stream()
-                            .anyMatch(u ->u.getUsername().equalsIgnoreCase(usernameCopy));
+            List<User> users= jsonb.fromJson(
+                    json,
+                    new ArrayList<User>(){}.getClass().getGenericSuperclass());
 
-                    if(exist){
-                        throw new InvalidNameException("Username već postoji!");
-                    }
-
-                    break;
-                }catch(InvalidNameException e){
-                    System.out.println("Greška pri unosu ->"+e.getMessage());
-                    log.error("Neispravan unos username-a!",e);
-                }
-            }
-
-            String password=null;
-
-            while(true) {
-                System.out.println("Password:");
-                try{
-                  password=sc.nextLine();
-                  if(password.isEmpty()){
-                      throw new InvalidInputException("Password ne smije biti prazan!");
-                  }
-                  break;
-                }catch(InvalidInputException e){
-                    System.out.println("Greška pri unosu ->"+e.getMessage());
-                    log.error("Korisnik je pokušao staviti prazan password!");
-                }
-            }
+            log.trace("Završeno učitavanje korisnika.");
 
 
-            /* Ne treba mi email za sad
-            System.out.println("Email:");
-            String email=sc.nextLine();
-             */
-            System.out.println("User id je dodjeljen automatski -> Vaš id je: "+(i+1)+"\n");
-            Integer userId=i+1;
+            System.out.println("Učitano korisnika: " + users.size());
+            users.forEach(u ->
+                    System.out.println("Username: "+u.getUsername()+" | Password: "+u.getPassword())
+            );
 
-            users.add( new User.Builder(username,password)
-                    .userId(userId).
-                    build());
-            log.info("Uspješno generiran korisnik: {}",username);
+            return users;
+
+
+        }catch(IOException e){
+            log.error("Greška pri učitavanju iz datoteke users.json!",e);
+            return new ArrayList<>();
+
         }
-        log.trace("Završeno generiranje korisnika.");
-        return users;
+
+
+
+    }
+
+    /**
+     * Učitava majice iz datoteke majice.json.
+     * @throws IOException ako metoda ima problema s učitavanjem datoteke (npr. datoteka ne postoji ili je krivi path do datoteke)
+     * @return listu {@link Majica} objekata
+     */
+    private static List<Majica> loadMajice(){
+
+        try{
+            Jsonb jsonb= JsonbBuilder.create();
+
+            String json=Files.readString(Paths.get(MAJICE_FILE));
+
+            return jsonb.fromJson(
+                    json,
+                    new ArrayList<Majica>(){}.getClass().getGenericSuperclass());
+
+
+        }catch(IOException e){
+            log.error("Greška pri učitavanju majici iz datoteke majice.json!",e);
+            return new ArrayList<>();
+
+        }
     }
 
 
     /**
-     * Generira proizvode (majice, hlače i cipele).
-     * <p>Metoda provjerava ispravnost cijene i veličine te u slučaju pogreške traži ponovni unos.</p>
-     *
-     * @param sc Scanner objekt za unos
-     * @throws NumberFormatException ako se unese String umjesto brojčane vrijednosti
-     * @throws InvalidInputException ako korisnik unese krivu vrijednost za traženi atribut objekta
-     * @throws InvalidNameException ako korisnik pokuša unijeti prazno ime
+     * Učitava Hlače iz datoteke hlace.json.
+     * @throws IOException ako metoda ima problema s učitavanjem datoteke (npr. datoteka ne postoji ili je krivi path do datoteke)
+     * @return listu {@link Hlace} objekata
+     */
+    private static List<Hlace> loadHlace(){
+
+        try{
+            Jsonb jsonb= JsonbBuilder.create();
+
+            String json=Files.readString(Paths.get(HLACE_FILE));
+
+            return jsonb.fromJson(
+                    json,
+                    new ArrayList<Hlace>(){}.getClass().getGenericSuperclass());
+
+
+        }catch(IOException e){
+            log.error("Greška pri učitavanju hlača iz datoteke hlace.json!",e);
+            return new ArrayList<>();
+
+        }
+    }
+
+    /**
+     * Učitava cipele iz datoteke cipele.json.
+     * @throws IOException ako metoda ima problema s učitavanjem datoteke (npr. datoteka ne postoji ili je krivi path do datoteke)
+     * @return listu {@link Cipele} objekata
+     */
+    private static List<Cipele> loadCipele(){
+
+        try{
+            Jsonb jsonb= JsonbBuilder.create();
+
+            String json=Files.readString(Paths.get(CIPELE_FILE));
+
+            return jsonb.fromJson(
+                    json,
+                    new ArrayList<Cipele>(){}.getClass().getGenericSuperclass());
+
+
+        }catch(IOException e){
+            log.error("Greška pri učitavanju majici iz datoteke majice.json!",e);
+            return new ArrayList<>();
+
+        }
+    }
+
+    /**
+     * Upisuje učitane proizvode (majice, hlače i cipele) u jednu listu.
      * @return polje {@link Item} objekata
      */
     private static List<Item> generateItems(Scanner sc)  {
         log.trace("Započeto generiranje proizvoda.");
         List<Item> items=new ArrayList<>();
 
-        Integer itemId=0;
+        items.addAll(loadMajice());
+        items.addAll(loadHlace());
+        items.addAll(loadCipele());
 
-        System.out.println("Napravite popis proizvoda:");
+        System.out.println("Učitano proizvoda: " + items.size());
+        items.forEach(i ->
+                System.out.println(i.getName() + " | " + i.getCategory() + " | " + i.getPrice() + " EUR")
+        );
 
-        System.out.println("Majice:");
-
-        for(Integer i=0;i< NUMBER_OF_ALL;i++){
-
-            System.out.println("Unesite "+(i+1)+". majicu:");
-
-            String ime=null;
-            while(true) {
-
-                System.out.println("Ime:");
-                try{
-                    ime=sc.nextLine();
-                    if(ime.isEmpty()){
-                        throw new InvalidNameException("Naziv proizvoda ne smije biti prazan!");
-                    }
-                    break;
-                }catch(InvalidNameException e){
-                    System.out.println("Greška pri unosu ->"+e.getMessage());
-                    log.error("Korisnik je ostavio ime proizvoda prazno",e);
-                }
-            }
-
-            BigDecimal price=null;
-            while(true) {
-                System.out.println("Cijena:");
-
-                try {
-                    price = new BigDecimal(sc.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    InvalidInputException ex= new InvalidInputException("Cijena mora biti brojčana vrijednost!");
-                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
-                    log.error("Neispravan unos cijene", e);
-                }
-            }
-
-            System.out.println("Boja:");
-            String boja=sc.nextLine();
-            System.out.println("Veličina:");
-            String velicina=sc.nextLine();
-            itemId++;
-
-            items.add(new Majica(ime,price,itemId,boja,velicina));
-
-        }
-
-        System.out.println("Hlače:");
-
-        for(Integer i=0;i< NUMBER_OF_ALL;i++){
-
-            System.out.println("Unesite "+(i+1)+". hlače:");
-            String ime=null;
-            while(true) {
-                System.out.println("Ime:");
-                try{
-                    ime=sc.nextLine();
-                    if(ime.isEmpty()){
-                        throw new InvalidNameException("Naziv proizvoda ne smije biti prazan");
-                    }
-                    break;
-                }catch(InvalidNameException e){
-                    System.out.println("Greška pri unosu ->"+e.getMessage());
-                    log.error("Korisnik je ostavio ime proizvoda prazno",e);
-                }
-            }
-
-            BigDecimal price=null;
-            while(true) {
-                System.out.println("Cijena:");
-
-                try {
-                    price = new BigDecimal(sc.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    InvalidInputException ex= new InvalidInputException("Cijena mora biti brojčana vrijednost!");
-                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
-                    log.error("Neispravan unos cijene", e);
-                }
-            }
-
-            System.out.println("Boja:");
-            String boja=sc.nextLine();
-            System.out.println("Veličina:");
-            String velicina=sc.nextLine();
-            System.out.println("Vrsta:");
-            String vrsta=sc.nextLine();
-            itemId++;
-
-            items.add(new Hlace(ime,price,itemId,boja,velicina,vrsta));
-
-        }
-
-        System.out.println("Cipele:");
-
-        for(Integer i=0;i< NUMBER_OF_ALL;i++){
-
-            System.out.println("Unesite "+(i+1)+". cipele:");
-            String ime=null;
-            while(true) {
-                System.out.println("Ime:");
-                try{
-                    ime=sc.nextLine();
-                    if(ime.isEmpty()){
-                        throw new InvalidNameException("Naziv proizvoda ne smije biti prazan");
-                    }
-                    break;
-                }catch(InvalidNameException e){
-                    System.out.println("Greška pri unosu ->"+e.getMessage());
-                    log.error("Korisnik je ostavio ime proizvoda prazno",e);
-                }
-            }
-
-            BigDecimal price=null;
-            while(true) {
-                System.out.println("Cijena:");
-
-                try {
-                    price = new BigDecimal(sc.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    InvalidInputException ex= new InvalidInputException("Cijena mora biti brojčana vrijednost!");
-                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
-                    log.error("Neispravan unos cijene", e);
-                }
-            }
-
-            BigDecimal velicina=null;
-            while(true) {
-                System.out.println("Veličina:");
-
-                try {
-                    velicina = new BigDecimal(sc.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    InvalidInputException ex= new InvalidInputException("Veličina mora biti brojčana vrijednost!");
-                    System.out.println("Greška pri unosu vrijednosti -> "+ex.getMessage());
-                    log.error("Neispravan unos veličine", e);
-                }
-            }
-
-            itemId++;
-
-            items.add(new Cipele(ime,price,itemId,velicina));
-
-        }
         log.trace("Završeno generiranje proizvoda.");
         return items;
     }
@@ -379,10 +280,11 @@ public class Main {
                     while(true) {
 
                         System.out.println("Odaberite proizvod:");
-                        choice = sc.nextInt();
+
 
                         //provjera jel odabrao postojeci proizvod
                         try {
+                            choice = sc.nextInt();
                             if (choice > items.size() || choice < 1) {
                                 throw new InvalidOdabirException("Odabrali ste nepostojeći proizvod!");
                             }
@@ -462,8 +364,11 @@ public class Main {
                 } while ("Da".equalsIgnoreCase(answer));
 
                 //Provjerava jel korisnik nešto naručio, odnosno, jel odustao od kupnje ako je prva stvar bila rasprodana
-                if(!orderedItems.isEmpty()) {
+                if(!orderedItems.isEmpty()){
                 bookings.add( new Booking(selectedUser, orderedItems, orderedQuantity,bookingIndex));
+
+                //spremam booking u json datoteku
+                saveBookings(bookings);
 
                 //povezivanje korisnika sa njegovom narudžbom
                 String username=selectedUser.getUsername();
@@ -525,6 +430,7 @@ public class Main {
                             bookings.get(bookingIndex).getBookingId(),
                                                  LocalDateTime.now()));
 
+                    saveRecords(records);
 
                 }
                 if(odgovor.equals(2)) {
@@ -540,6 +446,39 @@ public class Main {
         }
         log.trace("Završeno generiranje narudžbi.");
         return bookings;
+    }
+
+    private static void saveBookings(List<Booking> bookings){
+
+        try {
+            //da se ljepse zapisuju stvari
+            JsonbConfig config = new JsonbConfig()
+                    .withFormatting(true);
+
+            Jsonb jsonb = JsonbBuilder.create(config);
+            String json = jsonb.toJson(bookings);
+            Files.writeString(Paths.get(BOOKINGS_FILE), json);
+        } catch (IOException e) {
+            log.error("Greška kod pisanja u datoteku bookings.json!",e);
+            System.out.println("Greška kod pisanja u datoteku bookings.json -> "+e.getMessage());
+        }
+
+    }
+
+    private static void saveRecords(Set<Record> records){
+
+        try {
+
+            JsonbConfig config = new JsonbConfig()
+                    .withFormatting(true);
+
+            Jsonb jsonb = JsonbBuilder.create(config);
+            String json = jsonb.toJson(records);  // ✔ radi normalno
+            Files.writeString(Paths.get(RECORDS_FILE), json);
+        } catch (IOException e) {
+            log.error("Greška kod pisanja u datoteku records.json!", e);
+            System.out.println("Greška kod pisanja u datoteku record.json -> "+e.getMessage());
+        }
     }
 
     /**
@@ -1037,8 +976,6 @@ public class Main {
     private static void arhivirajProizvode(List<? extends Item> naruceniProizvodi, List<? super Item> arhiva) {
         naruceniProizvodi.forEach(arhiva::add);
     }
-
-
 
 
 }

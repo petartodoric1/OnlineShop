@@ -13,6 +13,8 @@ public abstract class Item implements Sold{
     private Integer itemId;
     private boolean sold= false;
 
+    public Item(){}
+
     /**
      * Generira jedan item
      * @param name

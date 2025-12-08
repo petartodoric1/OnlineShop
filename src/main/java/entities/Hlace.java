@@ -11,6 +11,8 @@ public class Hlace extends Item {
     private String size;
     private String type;
 
+    public Hlace(){}
+
     /**
      * Kreira proizvod Hlače sa predanim parametrima
      * @param name

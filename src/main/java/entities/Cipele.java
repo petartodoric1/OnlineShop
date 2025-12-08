@@ -10,6 +10,8 @@ public class Cipele extends Item {
 
     private BigDecimal size;
 
+    public Cipele(){}
+
     /**
      * Kreira jedan par cipela sa predanim parametrima
      * @param name

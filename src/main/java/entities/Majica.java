@@ -10,6 +10,8 @@ public class Majica extends Item {
     private String color;
     private String size;
 
+    public Majica(){}
+
     /**
      * Kreira jednu majicu sa predanim parametrima
      * @param name
@@ -23,6 +25,7 @@ public class Majica extends Item {
         this.color = color;
         this.size = size;
     }
+
 
     public String getColor() {
         return color;
