@@ -448,6 +448,10 @@ public class Main {
         return bookings;
     }
 
+    /**
+     * Zapisuje narudžbe u bookings.json datoteku.
+     * @param bookings lista narudžbi
+     */
     private static void saveBookings(List<Booking> bookings){
 
         try {
@@ -464,7 +468,10 @@ public class Main {
         }
 
     }
-
+    /**
+     * Zapisuje plaćene narudžbe u records.json datoteku.
+     * @param records lista plaćenih narudžbi
+     */
     private static void saveRecords(Set<Record> records){
 
         try {
