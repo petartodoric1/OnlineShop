@@ -7,6 +7,8 @@ import java.math.BigDecimal;
  */
 public class Majica extends Item {
 
+    private static final long serialVersionUID = 1L;
+
     private String color;
     private String size;
 

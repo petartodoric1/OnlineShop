@@ -7,6 +7,8 @@ import java.math.BigDecimal;
  */
 public class Cipele extends Item {
 
+    private static final long serialVersionUID = 1L;
+
 
     private BigDecimal size;
 

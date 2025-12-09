@@ -1,12 +1,15 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Predstavlja jedan proizvod
  * <p>Apstraktna klasa od koje ostatak proizvoda nasljeđuje atribute name,price,ItemId</p>
  */
-public abstract class Item implements Sold{
+public abstract class Item implements Sold, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String name;
     private BigDecimal price;

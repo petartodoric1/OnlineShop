@@ -629,3 +629,28 @@ Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for l
 2025-12-09 00:06:19,451 DEBUG [main] app.Main [Main.java:227] Generiranje 1. narudžbe
 2025-12-09 00:06:28,278 INFO [main] app.Main [Main.java:518] Korisnik ivan uspješno prijavljen.
 2025-12-09 00:06:32,384 TRACE [main] app.Main [Main.java:447] Završeno generiranje narudžbi.
+2025-12-09 17:00:43,191 INFO [main] app.Main [Main.java:55] Pokretanje aplikacije ...
+2025-12-09 17:00:43,207 TRACE [main] app.Main [Main.java:81] Započeto učitavanje korisnika.
+2025-12-09 17:00:43,298 TRACE [main] app.Main [Main.java:93] Završeno učitavanje korisnika.
+2025-12-09 17:00:43,299 TRACE [main] app.Main [Main.java:192] Započeto generiranje proizvoda.
+2025-12-09 17:00:43,334 TRACE [main] app.Main [Main.java:204] Završeno generiranje proizvoda.
+2025-12-09 17:00:43,351 TRACE [main] app.Main [Main.java:231] Započeto generiranje narudžbi.
+2025-12-09 17:00:43,351 DEBUG [main] app.Main [Main.java:236] Generiranje 0. narudžbe
+2025-12-09 17:00:55,012 INFO [main] app.Main [Main.java:534] Korisnik pero uspješno prijavljen.
+2025-12-09 17:00:56,326 ERROR [main] app.Main [Main.java:303] Neispravan odabir proizvoda!
+2025-12-09 17:01:00,603 DEBUG [main] app.Main [Main.java:236] Generiranje 1. narudžbe
+2025-12-09 17:01:05,250 INFO [main] app.Main [Main.java:534] Korisnik ivan uspješno prijavljen.
+2025-12-09 17:01:11,101 TRACE [main] app.Main [Main.java:456] Završeno generiranje narudžbi.
+2025-12-09 17:48:38,297 INFO [main] app.Main [Main.java:57] Pokretanje aplikacije ...
+2025-12-09 17:48:38,304 TRACE [main] app.Main [Main.java:85] Započeto učitavanje korisnika.
+2025-12-09 17:48:38,372 TRACE [main] app.Main [Main.java:97] Završeno učitavanje korisnika.
+2025-12-09 17:48:38,374 TRACE [main] app.Main [Main.java:196] Započeto generiranje proizvoda.
+2025-12-09 17:48:38,393 TRACE [main] app.Main [Main.java:208] Završeno generiranje proizvoda.
+2025-12-09 17:48:38,484 TRACE [main] app.Main [Main.java:235] Započeto generiranje narudžbi.
+2025-12-09 17:48:38,484 DEBUG [main] app.Main [Main.java:240] Generiranje 0. narudžbe
+2025-12-09 17:48:43,397 WARN [main] app.Main [Main.java:549] Neuspješna prijava korisnika: pero
+2025-12-09 17:48:44,363 INFO [main] app.Main [Main.java:538] Korisnik pero uspješno prijavljen.
+2025-12-09 17:48:52,834 DEBUG [main] app.Main [Main.java:240] Generiranje 1. narudžbe
+2025-12-09 17:48:56,108 INFO [main] app.Main [Main.java:538] Korisnik ivan uspješno prijavljen.
+2025-12-09 17:49:00,500 TRACE [main] app.Main [Main.java:460] Završeno generiranje narudžbi.
+2025-12-09 17:49:39,376 ERROR [main] app.Main [Main.java:664] Pogrešan unos 'Da/Ne' od korisnika: 5

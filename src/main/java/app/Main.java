@@ -7,6 +7,7 @@ import jakarta.json.bind.JsonbConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
@@ -17,7 +18,6 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.io.IOException;
 
 
 /**
@@ -43,6 +43,9 @@ public class Main {
     private static final String CIPELE_FILE = "datoteke/cipele.json";
     private static final String BOOKINGS_FILE = "datoteke/bookings.json";
     private static final String RECORDS_FILE  = "datoteke/records.json";
+    private static final String BACKUP_FILE = "datoteke/backup.bin";
+    private static final String XML_LOG_FILE = "datoteke/log.xml";
+    private static final List<LogEntry> logEntries = new ArrayList<>();
 
 
     /**
@@ -61,10 +64,15 @@ public class Main {
         Map<String,List<Booking>> userBookings=new HashMap<>();
         List<Object> arhivaProizvoda = new ArrayList<>();
 
+
         users=loadUsers();
         items=generateItems(sc);
+
+        saveBackup(users,items);
+        addLogEntry("BACKUP_SPREMI", "Kreiran backup.bin");
+
         bookings=generateBookings(sc,users,items,records,userBookings,arhivaProizvoda);
-        pretrazivanje(sc,bookings,items,records,userBookings,arhivaProizvoda);
+        pretrazivanje(sc,bookings,items,records,userBookings,arhivaProizvoda,users);
 
     }
 
@@ -217,7 +225,12 @@ public class Main {
      * @return polje {@link Booking} objekata
      */
 
-    private static List<Booking> generateBookings(Scanner sc,List<User> users,List<Item> items,Set<Record> records, Map<String,List<Booking>> userBookings, List<Object> arhivaProizvoda)  {
+    private static List<Booking> generateBookings(Scanner sc,
+                                                  List<User> users,
+                                                  List<Item> items,
+                                                  Set<Record> records,
+                                                  Map<String,List<Booking>> userBookings,
+                                                  List<Object> arhivaProizvoda)  {
 
         log.trace("Započeto generiranje narudžbi.");
         List<Booking> bookings= new ArrayList<>();
@@ -553,7 +566,13 @@ public class Main {
      * @throws InvalidOdabirException ako korisnik kod odabira upiše vrijednost koja nije ponuđen
      * @throws InputMismatchException ako korisnik unese string umjesto brojčane vrijednosti kod odabira
      */
-    private static void pretrazivanje(Scanner sc,List<Booking> bookings, List<Item> items,Set<Record> records, Map<String, List<Booking>> userBookings,List<Object> arhivaProizvoda) {
+    private static void pretrazivanje(Scanner sc,
+                                      List<Booking> bookings,
+                                      List<Item> items,
+                                      Set<Record> records,
+                                      Map<String,List<Booking>> userBookings,
+                                      List<Object> arhivaProizvoda,
+                                      List<User> users) {
 
         String confirmation=null;
         while(true) {
@@ -580,14 +599,16 @@ public class Main {
                     System.out.println("(1) Proizvode");
                     System.out.println("(2) Narudžbe");
                     System.out.println("(3) Korisnika");
+                    System.out.println("(4) Učitaj trenutni backup i pregazi ga sa novim podatcima");
+                    System.out.println("(5) Prikaži XML log korisničkih akcija");
                     System.out.println("Odabir:");
 
                     try {
                         odabir = sc.nextInt();
                         sc.nextLine();
 
-                        if (odabir != 1 && odabir != 2 && odabir != 3) {
-                            throw new InvalidOdabirException("Neispravan unos! Unesite 1, 2 ili 3.");
+                        if (odabir != 1 && odabir != 2 && odabir != 3 && odabir !=4 && odabir !=5) {
+                            throw new InvalidOdabirException("Neispravan unos! Unesite 1, 2, 3, 4 ili 5.");
                         }
 
                         break;
@@ -604,14 +625,28 @@ public class Main {
 
 
                 if (odabir.equals(1)) {
+                    addLogEntry("IZBORNIK", "Korisnik odabrao pretraživanje proizvoda");
                     odabirProizvoda(sc, items,arhivaProizvoda);
                 }
 
                 if (odabir.equals(2)) {
+                    addLogEntry("IZBORNIK", "Korisnik odabrao pretraživanje narudžbi");
                     odabirNarudzbe(sc, bookings, records);
                 }
                 if(odabir.equals(3)) {
+                    addLogEntry("IZBORNIK", "Korisnik odabrao pretraživanje kosrisnika");
                     pretrazivanjeKorisnika(sc,userBookings);
+                }
+                if(odabir.equals(4)){
+                    addLogEntry("IZBORNIK", "Korisnik odabrao učitavanje i 'gaženje' backupa ");
+                    Backup backup=loadBackup();
+                    if(backup!=null){
+                        pregaziBackup(backup,users,items);
+                    }
+                }
+                if(odabir.equals(5)){
+                    addLogEntry("IZBORNIK", "Korisnik zatražio ispis XML loga");
+                    printLogFromXml();
                 }
 
 
@@ -690,6 +725,7 @@ public class Main {
         switch (odabir) {
             case 1 -> {
                 // Najskuplji proizvod
+                addLogEntry("PRETRAZIVANJE_PROIZVODA", "Korisnik odabrao ispis najskupljeg proizvoda");
                 System.out.println("Najskuplji proizvod je: " + expensiveItem.getName() + " " + expensiveItem.getCategory());
                 System.out.println("Ukupna cijena je: " + expensiveItem.getPrice() + " EUR");
                 System.out.print("Dostupnost proizvoda: ");
@@ -702,6 +738,7 @@ public class Main {
 
             case 2 -> {
                 // Najjeftiniji proizvod
+                addLogEntry("PRETRAZIVANJE_PROIZVODA", "Korisnik odabrao ispis najjeftinijeg proizvoda");
                 System.out.println("Najjeftiniji proizvod je: " + cheapestItem.getName() + " " + cheapestItem.getCategory());
                 System.out.println("Ukupna cijena je: " + cheapestItem.getPrice() + " EUR");
                 System.out.print("Dostupnost proizvoda: ");
@@ -714,6 +751,7 @@ public class Main {
 
             case 3 -> {
                 // Sortiranje proizvoda
+                addLogEntry("PRETRAZIVANJE_PROIZVODA", "Korisnik odabrao sortiranje proizvoda");
                 Integer choice = null;
                 while (true) {
 
@@ -753,21 +791,25 @@ public class Main {
 
             case 4 -> {
                 // Pretraživanje po kategoriji
+                addLogEntry("PRETRAZIVANJE_PROIZVODA", "Korisnik odabrao pretraživanje proizvoda po kategoriji");
                 pretrazivanjePoKategoriji(sc, items);
             }
 
             case 5 -> {
                 // Ispis svih PRODANIH proizvoda
+                addLogEntry("PRETRAZIVANJE_PROIZVODA", "Korisnik odabrao ispis prodanih proizvoda");
                 ispisProdanihProizvoda(items);
             }
 
             case 6 -> {
                 // Ispis svih DOSTUPNIH proizvoda
+                addLogEntry("PRETRAZIVANJE_PROIZVODA", "Korisnik odabrao ispis dostupnih proizvoda");
                 ispisDostupnihProizvoda(items);
             }
 
             case 7 ->{
                 // Ispis arhive proizvoda
+                addLogEntry("PRETRAZIVANJE_PROIZVODA", "Korisnik odabrao ispis arhiviranih (svih prodanih ikad) proizvoda");
                 System.out.println("Arhivirani proizvodi (svi proizvodi ikad kupljeni):");
                 arhivaProizvoda.forEach(p->{
                     Item i= (Item) p;
@@ -829,6 +871,7 @@ public class Main {
         }
 
         if(odabir.equals(1)){
+            addLogEntry("PRETRAZIVANJE_NARUDZBI", "Korisnik odabrao ispis najskuplje narudžbe");
             System.out.println("Najskuplja narudžba je narudžba sa indexom: "+expensiveBooking.getBookingId());
             System.out.println("Naručitelj: "+expensiveBooking.getUser().getUsername());
             System.out.println("Ukupna cijena je: "+expensiveBooking.getTotalPrice()+" EUR");
@@ -838,6 +881,7 @@ public class Main {
         }
 
         if(odabir.equals(2)){
+            addLogEntry("PRETRAZIVANJE_NARUDZBI", "Korisnik odabrao ispis najjeftinije narudžbe");
             System.out.println("Najjeftinija narudžba je narudžba sa indexom: "+cheapestBooking.getBookingId());
             System.out.println("Naručitelj: "+cheapestBooking.getUser().getUsername());
             System.out.println("Ukupna cijena je: "+cheapestBooking.getTotalPrice()+" EUR");
@@ -847,7 +891,7 @@ public class Main {
         }
 
         if (odabir.equals(3)){
-
+            addLogEntry("PRETRAZIVANJE_NARUDZBI", "Korisnik odabrao ispis svih plaćenih narudžbi");
             System.out.println("Plaćene narudžbe su:");
 
             //koristim AtomicBoolean kao wrapper jer se u lambdi nemoze mijenjat vrijednost
@@ -874,7 +918,7 @@ public class Main {
      * @param userBookings mapa koja povezuje korisnikov username sa njegovim narudžbama
      */
     private static void pretrazivanjeKorisnika(Scanner sc, Map<String,List<Booking>> userBookings) {
-
+        addLogEntry("PRETRAZIVANJE_KORISNIKA", "Korisnik odabrao pretraživanje korisnika");
         System.out.println("Unesite korisnikov username:");
         String username = sc.nextLine();
 
@@ -982,6 +1026,116 @@ public class Main {
      */
     private static void arhivirajProizvode(List<? extends Item> naruceniProizvodi, List<? super Item> arhiva) {
         naruceniProizvodi.forEach(arhiva::add);
+    }
+
+
+    private static void saveBackup(List<User> users, List<Item> items){
+
+        Backup backup= new Backup(users,items);
+
+        try(ObjectOutputStream oos=
+                    new ObjectOutputStream(new FileOutputStream(BACKUP_FILE))){
+
+            oos.writeObject(backup);
+            System.out.println("Backup učitanih podataka je spremljen u backup.bin!");
+
+        } catch (IOException e) {
+            log.error("Greška pri serijalizaciji datoteke backup.bin",e);
+            System.out.println("Greška pri backupiranju podataka -> "+e.getMessage());
+        }
+
+    }
+
+    private static Backup loadBackup(){
+
+        try(ObjectInputStream ois= new ObjectInputStream(new FileInputStream(BACKUP_FILE))){
+
+            Object o=ois.readObject();
+            return (Backup) o;
+
+        }catch(FileNotFoundException e){
+
+            log.error("Backup datoteka ne postoji!",e);
+            System.out.println("Backup datoteka ne postoji -> "+ e.getMessage());
+            return null;
+
+        } catch (IOException | ClassNotFoundException e)  {
+            log.error("Greška pri otvaranju backup datoteke",e);
+            System.out.println("Greška pri učitavanju backupa! ->"+e.getMessage());
+            return null;
+        }
+
+    }
+
+    private static void pregaziBackup(Backup backup, List<User> users, List<Item> items) {
+
+        users.clear();
+        items.clear();
+
+        users.addAll(backup.getUsers());
+        items.addAll(backup.getItems());
+
+        System.out.println("Podatci iz backupa su uspješno zamjenjeni novim podatcima.");
+    }
+
+    private static void saveLogToXml() {
+        try {
+            jakarta.xml.bind.JAXBContext context =
+                    jakarta.xml.bind.JAXBContext.newInstance(LogEntries.class);
+
+            jakarta.xml.bind.Marshaller marshaller =
+                    context.createMarshaller();
+
+            marshaller.setProperty(
+                    jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            LogEntries wrapper = new LogEntries(logEntries);
+
+            marshaller.marshal(wrapper, new java.io.File(XML_LOG_FILE));
+
+        } catch (jakarta.xml.bind.JAXBException e) {
+            log.error("Greška pri zapisivanju XML loga!", e);
+        }
+    }
+
+    private static void addLogEntry(String action, String details) {
+        LogEntry entry = new LogEntry(action, details);
+        logEntries.add(entry);
+        saveLogToXml();
+    }
+
+    private static void printLogFromXml() {
+        java.io.File file = new java.io.File(XML_LOG_FILE);
+        if (!file.exists()) {
+            System.out.println("Nema spremljenog XML loga.");
+            return;
+        }
+
+        try {
+            jakarta.xml.bind.JAXBContext context =
+                    jakarta.xml.bind.JAXBContext.newInstance(LogEntries.class);
+
+            jakarta.xml.bind.Unmarshaller unmarshaller =
+                    context.createUnmarshaller();
+
+            LogEntries wrapper =
+                    (LogEntries) unmarshaller.unmarshal(file);
+
+            System.out.println("Zapisane korisničke akcije:");
+
+            for (LogEntry e : wrapper.getEntries()) {
+                // BEZ XML TAGOVA – samo vrijednosti
+                System.out.println(
+                        e.getTime() + " | " +
+                                e.getAction() + " | " +
+                                e.getDetails()
+                );
+            }
+
+        } catch (jakarta.xml.bind.JAXBException e) {
+            System.out.println("Greška pri čitanju XML loga.");
+            log.error("Greška pri čitanju XML loga!", e);
+        }
     }
 
 

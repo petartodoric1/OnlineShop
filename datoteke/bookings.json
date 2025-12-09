@@ -10,23 +10,7 @@
                 "category": "Majica",
                 "color": "crna",
                 "size": "M"
-            }
-        ],
-        "quantity": [
-            1
-        ],
-        "status": "PLAĆENO",
-        "totalPrice": 85.99,
-        "user": {
-            "email": "pero@gmail.com",
-            "password": "123",
-            "userId": 1,
-            "username": "pero"
-        }
-    },
-    {
-        "bookingId": 1,
-        "items": [
+            },
             {
                 "itemId": 4,
                 "name": "Tommy Hilfiger",
@@ -38,9 +22,36 @@
             }
         ],
         "quantity": [
-            1
+            1,
+            2
         ],
-        "totalPrice": 64.99,
+        "status": "PLAĆENO",
+        "totalPrice": 215.97,
+        "user": {
+            "email": "pero@gmail.com",
+            "password": "123",
+            "userId": 1,
+            "username": "pero"
+        }
+    },
+    {
+        "bookingId": 1,
+        "items": [
+            {
+                "itemId": 1,
+                "name": "Levi's",
+                "price": 140,
+                "sold": true,
+                "category": "Hlače",
+                "color": "plava",
+                "size": "L",
+                "type": "Traperice"
+            }
+        ],
+        "quantity": [
+            2
+        ],
+        "totalPrice": 280,
         "user": {
             "email": "ivan@gmail.com",
             "password": "123",
