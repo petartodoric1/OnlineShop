@@ -12,21 +12,32 @@
                 "size": "M"
             },
             {
-                "itemId": 4,
-                "name": "Tommy Hilfiger",
-                "price": 64.99,
+                "itemId": 5,
+                "name": "Stone Island",
+                "price": 250,
                 "sold": true,
                 "category": "Majica",
+                "color": "siva",
+                "size": "XL"
+            },
+            {
+                "itemId": 2,
+                "name": "Disel",
+                "price": 112.55,
+                "sold": true,
+                "category": "Hlače",
                 "color": "crna",
-                "size": "L"
+                "size": "M",
+                "type": "Traperice"
             }
         ],
         "quantity": [
+            2,
             1,
-            2
+            1
         ],
         "status": "PLAĆENO",
-        "totalPrice": 215.97,
+        "totalPrice": 534.53,
         "user": {
             "email": "pero@gmail.com",
             "password": "123",
@@ -49,14 +60,72 @@
             }
         ],
         "quantity": [
-            2
+            1
         ],
-        "totalPrice": 280,
+        "status": "PLAĆENO",
+        "totalPrice": 140,
         "user": {
             "email": "ivan@gmail.com",
             "password": "123",
             "userId": 3,
             "username": "ivan"
+        }
+    },
+    {
+        "bookingId": 2,
+        "items": [
+            {
+                "itemId": 3,
+                "name": "Hugo Boss",
+                "price": 100,
+                "sold": true,
+                "category": "Majica",
+                "color": "plava",
+                "size": "S"
+            }
+        ],
+        "quantity": [
+            1
+        ],
+        "status": "REZERVIRANO",
+        "totalPrice": 100,
+        "user": {
+            "email": "marko@gmail.com",
+            "password": "123",
+            "userId": 2,
+            "username": "marko"
+        }
+    },
+    {
+        "bookingId": 3,
+        "items": [
+            {
+                "itemId": 1,
+                "name": "Golden Goose",
+                "price": 400,
+                "sold": true,
+                "category": "Cipele",
+                "size": 44
+            },
+            {
+                "itemId": 1,
+                "name": "Nike Dunk",
+                "price": 120,
+                "sold": true,
+                "category": "Cipele",
+                "size": 43
+            }
+        ],
+        "quantity": [
+            1,
+            2
+        ],
+        "totalPrice": 640,
+        "user": {
+            "email": "heraklije@gmail.com",
+            "password": "123",
+            "userId": 5,
+            "username": "heraklije"
         }
     }
 ]

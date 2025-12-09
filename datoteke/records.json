@@ -1,14 +1,20 @@
 [
     {
         "bookingId": 1,
-        "price": 280,
-        "time": "2025-12-09T17:49:00.4950678",
+        "price": 140,
+        "time": "2025-12-09T18:09:12.3728458",
         "username": "ivan"
     },
     {
+        "bookingId": 3,
+        "price": 640,
+        "time": "2025-12-09T18:09:38.0409328",
+        "username": "heraklije"
+    },
+    {
         "bookingId": 0,
-        "price": 215.97,
-        "time": "2025-12-09T17:48:52.8261834",
+        "price": 534.53,
+        "time": "2025-12-09T18:09:03.3229904",
         "username": "pero"
     }
 ]

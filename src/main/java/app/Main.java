@@ -35,7 +35,7 @@ public class Main {
 
     private static Logger log= LoggerFactory.getLogger(Main.class);
 
-    private static final Integer NUMBER_OF_ALL = 2;
+    private static final Integer NUMBER_OF_ALL = 4;
 
     private static final String USERS_FILE  = "datoteke/users.json";
     private static final String MAJICE_FILE = "datoteke/majice.json";
@@ -201,9 +201,7 @@ public class Main {
         items.addAll(loadCipele());
 
         System.out.println("Učitano proizvoda: " + items.size());
-        items.forEach(i ->
-                System.out.println(i.getName() + " | " + i.getCategory() + " | " + i.getPrice() + " EUR")
-        );
+
 
         log.trace("Završeno generiranje proizvoda.");
         return items;

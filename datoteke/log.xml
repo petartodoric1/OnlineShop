@@ -1,37 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <log>
     <entry>
-        <time>2025-12-09T17:48:38.420360200</time>
+        <time>2025-12-09T18:08:39.792260900</time>
         <action>BACKUP_SPREMI</action>
         <details>Kreiran backup.bin</details>
     </entry>
     <entry>
-        <time>2025-12-09T17:49:03.291712</time>
-        <action>IZBORNIK</action>
-        <details>Korisnik odabrao pretraživanje proizvoda</details>
-    </entry>
-    <entry>
-        <time>2025-12-09T17:49:04.279869700</time>
-        <action>PRETRAZIVANJE_PROIZVODA</action>
-        <details>Korisnik odabrao ispis najskupljeg proizvoda</details>
-    </entry>
-    <entry>
-        <time>2025-12-09T17:49:07.997763300</time>
+        <time>2025-12-09T18:09:41.781148800</time>
         <action>IZBORNIK</action>
         <details>Korisnik odabrao pretraživanje narudžbi</details>
     </entry>
     <entry>
-        <time>2025-12-09T17:49:12.735332</time>
+        <time>2025-12-09T18:09:43.113900</time>
         <action>PRETRAZIVANJE_NARUDZBI</action>
         <details>Korisnik odabrao ispis svih plaćenih narudžbi</details>
     </entry>
     <entry>
-        <time>2025-12-09T17:49:15.856526300</time>
+        <time>2025-12-09T18:09:55.754961100</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao pretraživanje kosrisnika</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:09:55.757027500</time>
+        <action>PRETRAZIVANJE_KORISNIKA</action>
+        <details>Korisnik odabrao pretraživanje korisnika</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:02.290960600</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao pretraživanje proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:06.008875800</time>
+        <action>PRETRAZIVANJE_PROIZVODA</action>
+        <details>Korisnik odabrao ispis najjeftinijeg proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:11.878019600</time>
         <action>IZBORNIK</action>
         <details>Korisnik odabrao učitavanje i 'gaženje' backupa </details>
     </entry>
     <entry>
-        <time>2025-12-09T17:49:44.816664700</time>
+        <time>2025-12-09T18:10:15.074053400</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao pretraživanje narudžbi</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:16.481269</time>
+        <action>PRETRAZIVANJE_NARUDZBI</action>
+        <details>Korisnik odabrao ispis najskuplje narudžbe</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:18.997722900</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao pretraživanje proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:22.201449</time>
+        <action>PRETRAZIVANJE_PROIZVODA</action>
+        <details>Korisnik odabrao ispis arhiviranih (svih prodanih ikad) proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:25.685860500</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao pretraživanje proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:29.069949900</time>
+        <action>PRETRAZIVANJE_PROIZVODA</action>
+        <details>Korisnik odabrao ispis dostupnih proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T18:10:33.187685800</time>
         <action>IZBORNIK</action>
         <details>Korisnik zatražio ispis XML loga</details>
     </entry>

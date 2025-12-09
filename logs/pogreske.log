@@ -654,3 +654,21 @@ Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for l
 2025-12-09 17:48:56,108 INFO [main] app.Main [Main.java:538] Korisnik ivan uspješno prijavljen.
 2025-12-09 17:49:00,500 TRACE [main] app.Main [Main.java:460] Završeno generiranje narudžbi.
 2025-12-09 17:49:39,376 ERROR [main] app.Main [Main.java:664] Pogrešan unos 'Da/Ne' od korisnika: 5
+2025-12-09 18:08:39,657 INFO [main] app.Main [Main.java:57] Pokretanje aplikacije ...
+2025-12-09 18:08:39,666 TRACE [main] app.Main [Main.java:85] Započeto učitavanje korisnika.
+2025-12-09 18:08:39,745 TRACE [main] app.Main [Main.java:97] Završeno učitavanje korisnika.
+2025-12-09 18:08:39,746 TRACE [main] app.Main [Main.java:196] Započeto generiranje proizvoda.
+2025-12-09 18:08:39,778 TRACE [main] app.Main [Main.java:206] Završeno generiranje proizvoda.
+2025-12-09 18:08:39,854 TRACE [main] app.Main [Main.java:233] Započeto generiranje narudžbi.
+2025-12-09 18:08:39,855 DEBUG [main] app.Main [Main.java:238] Generiranje 0. narudžbe
+2025-12-09 18:08:48,767 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-09 18:08:57,251 ERROR [main] app.Main [Main.java:352] Unesen string umjesto broj!
+2025-12-09 18:08:57,955 ERROR [main] app.Main [Main.java:352] Unesen string umjesto broj!
+2025-12-09 18:09:03,330 DEBUG [main] app.Main [Main.java:238] Generiranje 1. narudžbe
+2025-12-09 18:09:07,767 INFO [main] app.Main [Main.java:536] Korisnik ivan uspješno prijavljen.
+2025-12-09 18:09:12,375 DEBUG [main] app.Main [Main.java:238] Generiranje 2. narudžbe
+2025-12-09 18:09:18,601 INFO [main] app.Main [Main.java:536] Korisnik marko uspješno prijavljen.
+2025-12-09 18:09:20,455 ERROR [main] app.Main [Main.java:305] Neispravan odabir proizvoda!
+2025-12-09 18:09:25,004 DEBUG [main] app.Main [Main.java:238] Generiranje 3. narudžbe
+2025-12-09 18:09:29,526 INFO [main] app.Main [Main.java:536] Korisnik heraklije uspješno prijavljen.
+2025-12-09 18:09:38,043 TRACE [main] app.Main [Main.java:458] Završeno generiranje narudžbi.
