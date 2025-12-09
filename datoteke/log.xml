@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<log>
+    <entry>
+        <time>2025-12-09T17:48:38.420360200</time>
+        <action>BACKUP_SPREMI</action>
+        <details>Kreiran backup.bin</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T17:49:03.291712</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao pretraživanje proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T17:49:04.279869700</time>
+        <action>PRETRAZIVANJE_PROIZVODA</action>
+        <details>Korisnik odabrao ispis najskupljeg proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T17:49:07.997763300</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao pretraživanje narudžbi</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T17:49:12.735332</time>
+        <action>PRETRAZIVANJE_NARUDZBI</action>
+        <details>Korisnik odabrao ispis svih plaćenih narudžbi</details>
+    </entry>
+    <entry>
+        <time>2025-12-09T17:49:15.856526300</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik odabrao učitavanje i 'gaženje' backupa </details>
+    </entry>
+    <entry>
+        <time>2025-12-09T17:49:44.816664700</time>
+        <action>IZBORNIK</action>
+        <details>Korisnik zatražio ispis XML loga</details>
+    </entry>
+</log>
