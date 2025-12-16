@@ -672,3 +672,67 @@ Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for l
 2025-12-09 18:09:25,004 DEBUG [main] app.Main [Main.java:238] Generiranje 3. narudžbe
 2025-12-09 18:09:29,526 INFO [main] app.Main [Main.java:536] Korisnik heraklije uspješno prijavljen.
 2025-12-09 18:09:38,043 TRACE [main] app.Main [Main.java:458] Završeno generiranje narudžbi.
+2025-12-15 00:29:26,969 INFO [main] app.Main [Main.java:57] Pokretanje aplikacije ...
+2025-12-15 00:29:26,989 TRACE [main] app.Main [Main.java:85] Započeto učitavanje korisnika.
+2025-12-15 00:29:27,080 TRACE [main] app.Main [Main.java:97] Završeno učitavanje korisnika.
+2025-12-15 00:29:27,081 TRACE [main] app.Main [Main.java:196] Započeto generiranje proizvoda.
+2025-12-15 00:29:27,126 TRACE [main] app.Main [Main.java:206] Završeno generiranje proizvoda.
+2025-12-15 00:29:27,218 TRACE [main] app.Main [Main.java:233] Započeto generiranje narudžbi.
+2025-12-15 00:29:27,219 DEBUG [main] app.Main [Main.java:238] Generiranje 0. narudžbe
+2025-12-15 00:29:32,036 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:29:37,885 DEBUG [main] app.Main [Main.java:238] Generiranje 1. narudžbe
+2025-12-15 00:29:42,921 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:29:48,432 DEBUG [main] app.Main [Main.java:238] Generiranje 2. narudžbe
+2025-12-15 00:29:50,252 DEBUG [main] app.Main [Main.java:238] Generiranje 2. narudžbe
+2025-12-15 00:29:52,189 DEBUG [main] app.Main [Main.java:238] Generiranje 2. narudžbe
+2025-12-15 00:29:53,723 ERROR [main] app.Main [Main.java:253] Pogrešan unos 'Da/Ne' od korisnika: 1
+2025-12-15 00:29:57,533 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:30:03,439 DEBUG [main] app.Main [Main.java:238] Generiranje 3. narudžbe
+2025-12-15 00:30:10,990 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:30:15,198 ERROR [main] app.Main [Main.java:425] Unesen string umjesto brojčane vrijednosti
+2025-12-15 00:30:16,654 TRACE [main] app.Main [Main.java:458] Završeno generiranje narudžbi.
+2025-12-15 00:31:35,897 ERROR [main] app.Main [Main.java:662] Pogrešan unos 'Da/Ne' od korisnika: 5
+2025-12-15 00:33:31,966 INFO [main] app.Main [Main.java:57] Pokretanje aplikacije ...
+2025-12-15 00:33:31,988 TRACE [main] app.Main [Main.java:85] Započeto učitavanje korisnika.
+2025-12-15 00:33:32,109 TRACE [main] app.Main [Main.java:97] Završeno učitavanje korisnika.
+2025-12-15 00:33:32,110 TRACE [main] app.Main [Main.java:196] Započeto generiranje proizvoda.
+2025-12-15 00:33:32,139 TRACE [main] app.Main [Main.java:206] Završeno generiranje proizvoda.
+2025-12-15 00:33:32,248 TRACE [main] app.Main [Main.java:233] Započeto generiranje narudžbi.
+2025-12-15 00:33:32,248 DEBUG [main] app.Main [Main.java:238] Generiranje 0. narudžbe
+2025-12-15 00:33:38,834 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:33:44,539 DEBUG [main] app.Main [Main.java:238] Generiranje 1. narudžbe
+2025-12-15 00:33:50,925 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:33:59,954 ERROR [main] app.Main [Main.java:371] Pogrešan unos 'Da/Ne' od korisnika: ¸ne
+2025-12-15 00:34:02,930 DEBUG [main] app.Main [Main.java:238] Generiranje 2. narudžbe
+2025-12-15 00:34:05,944 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:34:10,606 DEBUG [main] app.Main [Main.java:238] Generiranje 3. narudžbe
+2025-12-15 00:34:14,581 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:34:18,481 DEBUG [main] app.Main [Main.java:238] Generiranje 3. narudžbe
+2025-12-15 00:34:25,073 INFO [main] app.Main [Main.java:536] Korisnik pero uspješno prijavljen.
+2025-12-15 00:34:29,650 TRACE [main] app.Main [Main.java:458] Završeno generiranje narudžbi.
+2025-12-16 16:19:13,221 TRACE [main] r.UserRepository [UserRepository.java:29] Započeto učitavanje korisnika iz users.json.
+2025-12-16 16:19:13,324 TRACE [main] r.UserRepository [UserRepository.java:41] Završeno učitavanje korisnika. Učitano: 5
+2025-12-16 16:19:13,325 TRACE [main] r.ItemRepository [ItemRepository.java:29] Započeto učitavanje svih proizvoda.
+2025-12-16 16:19:13,376 TRACE [main] r.ItemRepository [ItemRepository.java:37] Završeno učitavanje proizvoda. Ukupno: 15
+2025-12-16 16:19:13,464 TRACE [main] s.BookingService [BookingService.java:42] Započeto generiranje narudžbi.
+2025-12-16 16:19:13,464 DEBUG [main] s.BookingService [BookingService.java:47] Generiranje 0. narudžbe
+2025-12-16 16:19:21,337 INFO [main] s.LoginService [LoginService.java:39] Korisnik pero uspješno prijavljen.
+2025-12-16 16:19:29,058 ERROR [main] s.BookingService [BookingService.java:117] Unesen broj manji od 1!
+2025-12-16 16:19:36,290 DEBUG [main] r.BookingRepository [BookingRepository.java:39] Spremljeno 1 booking-a.
+2025-12-16 16:19:37,341 DEBUG [main] r.RecordRepository [RecordRepository.java:35] Spremljeno 1 record-a u datoteke\records.json
+2025-12-16 16:19:37,341 DEBUG [main] s.BookingService [BookingService.java:47] Generiranje 1. narudžbe
+2025-12-16 16:19:41,261 INFO [main] s.LoginService [LoginService.java:39] Korisnik pero uspješno prijavljen.
+2025-12-16 16:19:45,577 DEBUG [main] r.BookingRepository [BookingRepository.java:39] Spremljeno 2 booking-a.
+2025-12-16 16:19:46,712 DEBUG [main] r.RecordRepository [RecordRepository.java:35] Spremljeno 2 record-a u datoteke\records.json
+2025-12-16 16:19:46,712 DEBUG [main] s.BookingService [BookingService.java:47] Generiranje 2. narudžbe
+2025-12-16 16:19:50,055 INFO [main] s.LoginService [LoginService.java:39] Korisnik pero uspješno prijavljen.
+2025-12-16 16:19:55,386 DEBUG [main] s.BookingService [BookingService.java:47] Generiranje 2. narudžbe
+2025-12-16 16:20:02,175 WARN [main] s.LoginService [LoginService.java:45] Neuspješna prijava korisnika: pero (pokušaj 1/3)
+2025-12-16 16:20:03,870 INFO [main] s.LoginService [LoginService.java:39] Korisnik pero uspješno prijavljen.
+2025-12-16 16:20:22,345 DEBUG [main] r.BookingRepository [BookingRepository.java:39] Spremljeno 3 booking-a.
+2025-12-16 16:20:25,184 DEBUG [main] r.RecordRepository [RecordRepository.java:35] Spremljeno 3 record-a u datoteke\records.json
+2025-12-16 16:20:25,184 DEBUG [main] s.BookingService [BookingService.java:47] Generiranje 3. narudžbe
+2025-12-16 16:20:37,264 INFO [main] s.LoginService [LoginService.java:39] Korisnik pero uspješno prijavljen.
+2025-12-16 16:20:40,489 DEBUG [main] r.BookingRepository [BookingRepository.java:39] Spremljeno 4 booking-a.
+2025-12-16 16:20:41,652 DEBUG [main] r.RecordRepository [RecordRepository.java:35] Spremljeno 4 record-a u datoteke\records.json
+2025-12-16 16:20:41,652 TRACE [main] s.BookingService [BookingService.java:186] Završeno generiranje narudžbi.

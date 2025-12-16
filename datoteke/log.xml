@@ -1,78 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <log>
     <entry>
-        <time>2025-12-09T18:08:39.792260900</time>
+        <time>2025-12-16T16:19:13.390569300</time>
         <action>BACKUP_SPREMI</action>
         <details>Kreiran backup.bin</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:09:41.781148800</time>
+        <time>2025-12-16T16:20:46.015953900</time>
         <action>IZBORNIK</action>
         <details>Korisnik odabrao pretraživanje narudžbi</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:09:43.113900</time>
+        <time>2025-12-16T16:20:47.483927200</time>
         <action>PRETRAZIVANJE_NARUDZBI</action>
-        <details>Korisnik odabrao ispis svih plaćenih narudžbi</details>
+        <details>Ispis plaćenih narudžbi</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:09:55.754961100</time>
+        <time>2025-12-16T16:20:57.097717500</time>
         <action>IZBORNIK</action>
-        <details>Korisnik odabrao pretraživanje kosrisnika</details>
+        <details>Korisnik odabrao pretraživanje proizvoda</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:09:55.757027500</time>
-        <action>PRETRAZIVANJE_KORISNIKA</action>
+        <time>2025-12-16T16:21:01.415076800</time>
+        <action>PRETRAZIVANJE_PROIZVODA</action>
+        <details>Pretraživanje po kategoriji</details>
+    </entry>
+    <entry>
+        <time>2025-12-16T16:21:09.450477500</time>
+        <action>IZBORNIK</action>
         <details>Korisnik odabrao pretraživanje korisnika</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:10:02.290960600</time>
+        <time>2025-12-16T16:21:15.826673500</time>
         <action>IZBORNIK</action>
         <details>Korisnik odabrao pretraživanje proizvoda</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:10:06.008875800</time>
+        <time>2025-12-16T16:21:18.163981</time>
         <action>PRETRAZIVANJE_PROIZVODA</action>
-        <details>Korisnik odabrao ispis najjeftinijeg proizvoda</details>
+        <details>Ispis dostupnih proizvoda</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:10:11.878019600</time>
+        <time>2025-12-16T16:21:21.360654</time>
         <action>IZBORNIK</action>
-        <details>Korisnik odabrao učitavanje i 'gaženje' backupa </details>
+        <details>Korisnik odabrao pretraživanje proizvoda</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:10:15.074053400</time>
+        <time>2025-12-16T16:21:23.628455400</time>
+        <action>PRETRAZIVANJE_PROIZVODA</action>
+        <details>Ispis prodanih proizvoda</details>
+    </entry>
+    <entry>
+        <time>2025-12-16T16:21:29.860706200</time>
         <action>IZBORNIK</action>
         <details>Korisnik odabrao pretraživanje narudžbi</details>
     </entry>
     <entry>
-        <time>2025-12-09T18:10:16.481269</time>
+        <time>2025-12-16T16:21:32.173057200</time>
         <action>PRETRAZIVANJE_NARUDZBI</action>
-        <details>Korisnik odabrao ispis najskuplje narudžbe</details>
-    </entry>
-    <entry>
-        <time>2025-12-09T18:10:18.997722900</time>
-        <action>IZBORNIK</action>
-        <details>Korisnik odabrao pretraživanje proizvoda</details>
-    </entry>
-    <entry>
-        <time>2025-12-09T18:10:22.201449</time>
-        <action>PRETRAZIVANJE_PROIZVODA</action>
-        <details>Korisnik odabrao ispis arhiviranih (svih prodanih ikad) proizvoda</details>
-    </entry>
-    <entry>
-        <time>2025-12-09T18:10:25.685860500</time>
-        <action>IZBORNIK</action>
-        <details>Korisnik odabrao pretraživanje proizvoda</details>
-    </entry>
-    <entry>
-        <time>2025-12-09T18:10:29.069949900</time>
-        <action>PRETRAZIVANJE_PROIZVODA</action>
-        <details>Korisnik odabrao ispis dostupnih proizvoda</details>
-    </entry>
-    <entry>
-        <time>2025-12-09T18:10:33.187685800</time>
-        <action>IZBORNIK</action>
-        <details>Korisnik zatražio ispis XML loga</details>
+        <details>Ispis najskuplje narudžbe</details>
     </entry>
 </log>
